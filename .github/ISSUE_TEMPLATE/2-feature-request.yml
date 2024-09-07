@@ -1,0 +1,23 @@
+name: "Feature request"
+description: A request to update or improve the library
+title: "[Request] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: Before opening this issue to request a feature/improvement, if there are something you can help us with, your contributions are welcomed and appreciated.
+  - type: markdown
+    attributes:
+      value: Thank you for helping us improve the library!
+  - type: textarea
+    attributes:
+      label: What is the improvement or update you wish to see?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Are there any relevant context or insights that might assist us?
+      description: A clear description of any added context, insights, or resources that might help us understand and improve it.
+  - type: textarea
+    attributes:
+      label: What do you expect the new feature/enhancement to look like?
