@@ -1,0 +1,29 @@
+<div
+  #globalToast
+  id="global-toast"
+  class="popover-slide-y inset-auto right-4 top-4 w-80 rounded-md p-0 shadow-md"
+  popover="manual"
+>
+  @if (toastData().hasCloseBtn) {
+    <button
+      class="ml-auto block p-2"
+      popovertarget="global-toast"
+      popovertargetaction="hide"
+    >
+      <img src="/x.svg" width="20" height="20" alt="success" aria-hidden />
+      <span class="sr-only">Close</span>
+    </button>
+  }
+
+  <div
+    class="flex items-center gap-2 p-4"
+    [ngClass]="toastData().hasCloseBtn ? 'pt-2' : ''"
+  >
+    @if (toastData().type === "error") {
+      <img src="/x.svg" alt="success" />
+    } @else {
+      <img src="/circle-check.svg" alt="success" />
+    }
+    <p class="flex-1 text-center">{{ toastData().message }}</p>
+  </div>
+</div>

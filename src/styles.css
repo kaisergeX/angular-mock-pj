@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-50;
+  }
+
+  [popover] {
+    --popover-transition-timing-fn: cubic-bezier(0.32, 0.72, 0, 1);
+    opacity: 0;
+    transition:
+      opacity,
+      display allow-discrete,
+      overlay allow-discrete;
+    transition-duration: 200ms;
+    transition-timing-function: var(--popover-transition-timing-fn);
+  }
+
+  [popover]:popover-open {
+    opacity: 1;
+  }
+
+  @starting-style {
+    [popover]:popover-open {
+      @apply opacity-0;
+    }
+  }
+}
+
+@layer components {
+  .button-base {
+    @apply inline-flex items-center gap-2 rounded-md border px-3.5 py-2.5 align-top text-sm font-semibold leading-normal shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 dark:focus-visible:outline-zinc-400;
+  }
+
+  button:disabled {
+    @apply disabled;
+  }
+
+  .button {
+    @apply button-base border-zinc-900 bg-zinc-900 text-white hover:bg-transparent hover:text-zinc-900 focus-visible:hover:border-transparent dark:border-transparent dark:bg-zinc-300 dark:text-black hover:dark:bg-zinc-100;
+  }
+
+  .button-secondary {
+    @apply button-base border-zinc-200 bg-transparent text-inherit hover:border-zinc-900 hover:text-inherit dark:border-zinc-600 dark:hover:border-zinc-200;
+  }
+
+  .link {
+    @apply px-2 py-1 transition-colors hover:rounded-md hover:bg-slate-200;
+  }
+
+  .input {
+    @apply block w-full rounded-md border border-slate-300 px-2 py-1;
+  }
+
+  .dialog {
+    --dialog-animation-timing-fn: cubic-bezier(0.32, 0.72, 0, 1);
+    --dialog-open-animation-duration: 400ms;
+    --dialog-close-animation-duration: 200ms;
+
+    @apply opacity-0 focus-visible:outline-none;
+
+    transition:
+      opacity var(--dialog-close-animation-duration),
+      display var(--dialog-close-animation-duration) allow-discrete,
+      overlay var(--dialog-close-animation-duration) allow-discrete;
+
+    &::backdrop {
+      @apply opacity-0 backdrop-blur-[2px];
+
+      transition: inherit;
+    }
+
+    &[open],
+    &[open]::backdrop {
+      @apply opacity-100 duration-[var(--dialog-open-animation-duration)];
+    }
+
+    @starting-style {
+      &[open] {
+        @apply opacity-0 backdrop:opacity-0;
+      }
+    }
+  }
+}
+
+@layer utilities {
+  .disabled {
+    @apply pointer-events-none cursor-not-allowed opacity-50;
+  }
+
+  .popover-slide-y {
+    animation: slideOutUp 500ms var(--popover-transition-timing-fn) forwards;
+
+    &:popover-open {
+      animation: slideInDown 200ms var(--popover-transition-timing-fn) forwards;
+    }
+  }
+}
+
+@layer keyframes {
+  @keyframes slideInDown {
+    from {
+      transform: translateY(-100%);
+    }
+  }
+
+  @keyframes slideOutUp {
+    to {
+      transform: translateY(-100%);
+    }
+  }
+}
