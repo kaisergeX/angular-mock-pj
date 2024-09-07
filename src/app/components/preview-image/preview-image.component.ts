@@ -1,11 +1,4 @@
-import {
-  Component,
-  effect,
-  ElementRef,
-  inject,
-  input,
-  output,
-} from '@angular/core';
+import { Component, effect, ElementRef, inject, input, output } from '@angular/core';
 import type { PreviewImageData } from './preview-image.model';
 
 @Component({

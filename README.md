@@ -12,7 +12,13 @@ pnpm i
 pnpm dev
 ```
 
-Navigate to `http://localhost:4200/`.
+Navigate to http://localhost:4200/.
+
+## Lint
+
+```
+pnpm lint
+```
 
 ## Build
 

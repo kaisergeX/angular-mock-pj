@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-cms',
   standalone: true,
   imports: [],
-  templateUrl: './cms.component.html'
+  templateUrl: './cms.component.html',
 })
-export class CmsComponent {
-
-}
+export class CmsComponent {}

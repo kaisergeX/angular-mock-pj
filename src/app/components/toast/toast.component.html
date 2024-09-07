@@ -5,21 +5,14 @@
   popover="manual"
 >
   @if (toastData().hasCloseBtn) {
-    <button
-      class="ml-auto block p-2"
-      popovertarget="global-toast"
-      popovertargetaction="hide"
-    >
-      <img src="/x.svg" width="20" height="20" alt="success" aria-hidden />
+    <button class="ml-auto block p-2" popovertarget="global-toast" popovertargetaction="hide">
+      <img src="/x.svg" width="20" height="20" alt="success" aria-hidden="true" />
       <span class="sr-only">Close</span>
     </button>
   }
 
-  <div
-    class="flex items-center gap-2 p-4"
-    [ngClass]="toastData().hasCloseBtn ? 'pt-2' : ''"
-  >
-    @if (toastData().type === "error") {
+  <div class="flex items-center gap-2 p-4" [ngClass]="toastData().hasCloseBtn ? 'pt-2' : ''">
+    @if (toastData().type === 'error') {
       <img src="/x.svg" alt="success" />
     } @else {
       <img src="/circle-check.svg" alt="success" />
