@@ -17,7 +17,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['apps/**/*.ts'],
+    files: ['apps/cms/**/*.ts'],
     extends: [...tseslint.configs.stylistic, ...angular.configs.tsRecommended],
     processor: angular.processInlineTemplates,
     rules: {
@@ -44,5 +44,14 @@ export default tseslint.config(
     files: ['apps/**/*.html'],
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
     rules: {},
+  },
+  {
+    files: ['apps/server/**/*.html'],
+    rules: {
+      '@typescript-eslint/interface-name-prefix': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
   },
 );
