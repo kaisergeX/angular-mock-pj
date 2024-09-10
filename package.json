@@ -4,10 +4,12 @@
   "scripts": {
     "build": "turbo build",
     "build:pkgs": "turbo build --filter=./packages/*",
+    "gen:env": "turbo gen-env",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "clean": "turbo run clean && rm -rf node_modules"
+    "clean": "turbo run clean && rm -rf node_modules",
+    "startup": "pnpm i && pnpm gen:env && pnpm build:pkgs && pnpm dev"
   },
   "type": "module",
   "devDependencies": {

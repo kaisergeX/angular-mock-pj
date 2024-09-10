@@ -5,12 +5,16 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-<p align="center">Server for Angular mock monorepo</p>
+<p align="center">Server for the monorepo</p>
 
 ## Project setup
 
-```
-pnpm install
+```bash
+# Create .env template file
+pnpm gen-env
+
+# Installation
+pnpm i
 ```
 
 ## Compile and run the project

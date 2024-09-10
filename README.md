@@ -11,18 +11,17 @@
 Please check the root [`package.json`](package.json#L24)'s `engines` field for the env requirement, then run:
 
 ```
-pnpm i
-pnpm build:pkgs
-pnpm dev
+pnpm startup
 ```
 
-Angular CMS app: http://localhost:4200
-CMS server:
+Angular CMS app: [localhost:4200](http://localhost:4200)
 
-### Packages
+CMS server: [localhost:8081](http://localhost:8081)
 
-- [server](apps/server): A server that serves other apps in this monorepo.
-- [cms](apps/cms): An mock Admin portal. Build with Angular 18.
+### Apps
+
+- [server](apps/server): Server that serves other apps in this monorepo. Powered by NestJS.
+- [cms](apps/cms): Mock Admin portal. Build with Angular 18.
 
 ## Installation
 
