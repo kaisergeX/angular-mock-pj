@@ -35,6 +35,7 @@ coverage
 
 # Turbo
 .turbo
+**/.turbo
 
 # Vercel
 .vercel
@@ -103,6 +104,10 @@ jspm_packages/
 /libpeerconnection.log
 testem.log
 /typings
+
+# temp directory
+**/.temp
+**/.tmp
 
 # System files
 .DS_Store
