@@ -11,6 +11,7 @@
     "incremental": true,
     "strictNullChecks": false,
     "noImplicitAny": false,
+    "noUnusedParameters": true,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false

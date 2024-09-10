@@ -22,15 +22,22 @@ export class HeaderComponent implements OnInit {
   activePageTitle?: string;
 
   ngOnInit() {
+    this.updateHeader();
     this.#router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
-      const activatedRouteSnapshot = this.#activatedRoute.firstChild?.snapshot;
-      if (!activatedRouteSnapshot) {
-        return;
-      }
-
-      const title = activatedRouteSnapshot.title;
-      this.showHeader = activatedRouteSnapshot.data['hideHeader'] ? false : !!title;
-      this.activePageTitle = title;
+      this.updateHeader();
     });
+  }
+
+  updateHeader() {
+    const activatedRouteSnapshot =
+      this.#activatedRoute.firstChild?.snapshot || this.#activatedRoute.snapshot;
+    if (!activatedRouteSnapshot) {
+      this.showHeader = false;
+      return;
+    }
+
+    const title = activatedRouteSnapshot.title;
+    this.showHeader = activatedRouteSnapshot.data['hideHeader'] ? false : !!title;
+    this.activePageTitle = title;
   }
 }
