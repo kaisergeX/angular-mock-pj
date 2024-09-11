@@ -2,6 +2,9 @@
   "extends": "@repo/typescript-config/angular-ts.json",
   "compilerOptions": {
     "baseUrl": "./",
+    "paths": {
+      "~/*": ["src/app/*"]
+    },
     "outDir": "./dist/out-tsc"
   }
 }

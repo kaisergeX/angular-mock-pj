@@ -38,6 +38,10 @@ module.exports = tseslint.config(
         },
       ],
       '@typescript-eslint/consistent-type-definitions': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrors: 'none' },
+      ],
     },
   },
   {

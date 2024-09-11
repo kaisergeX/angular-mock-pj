@@ -1,1 +1,55 @@
-<p>login page</p>
+<div>
+  <ng-icon class="mx-auto mb-2 text-3xl md:text-5xl" name="tablerApiApp" />
+  <h1
+    class="text-center font-handwriting text-2xl font-semibold text-gray-900 md:text-3xl dark:text-white"
+  >
+    Admin Portal
+  </h1>
+</div>
+<div
+  class="bg-default w-full rounded-lg shadow sm:w-1/2 sm:max-w-md dark:border dark:border-gray-700 dark:bg-gray-800"
+>
+  <div class="space-y-6 p-4 sm:p-6 md:space-y-6">
+    <h2 class="text-center font-bold md:text-xl">Sign in to your account</h2>
+    <form id="login-form" class="space-y-2" (ngSubmit)="handleSubmit($event)">
+      <div class="form-ctrl">
+        <label for="username" class="mb-1 block">Username</label>
+        <input
+          id="username"
+          class="input input-form"
+          type="text"
+          name="username"
+          placeholder="Enter your username"
+          minlength="3"
+          required
+        />
+        <p class="error-msg text-error invisible mt-1 text-sm">
+          Username must be at least 3 characters long
+        </p>
+      </div>
+      <div class="form-ctrl">
+        <label for="password" class="mb-1 block">Password</label>
+        <input
+          id="password"
+          class="input input-form"
+          type="password"
+          name="password"
+          placeholder="Enter your password"
+          minlength="6"
+          required
+        />
+        <p class="error-msg text-error invisible mt-1 text-sm">
+          Password must be at least 6 characters long
+        </p>
+      </div>
+    </form>
+
+    <button type="submit" form="login-form" class="button w-full justify-center rounded-lg">
+      Sign in
+    </button>
+    <!-- <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+        Don't have an account yet?
+        <a href="#" class="link font-medium">Sign up</a>
+      </p> -->
+  </div>
+</div>

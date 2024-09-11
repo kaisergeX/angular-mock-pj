@@ -62,7 +62,32 @@
   }
 
   .input {
-    @apply block w-full rounded-lg border border-gray-300 bg-gray-50 py-2 ps-10 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500;
+    @apply block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500;
+  }
+
+  .input-error {
+    @apply text-error border-current outline-current;
+  }
+
+  .input-warn {
+    @apply border-yellow-500 text-inherit outline-yellow-500;
+  }
+
+  .input-form {
+    &:not(:placeholder-shown):invalid {
+      @apply input-error;
+    }
+
+    &:focus:invalid {
+      /* Invalid but users are typing, so yellow instead of red (error) */
+      @apply input-warn;
+    }
+  }
+
+  .form-ctrl {
+    & > input:not(:placeholder-shown):invalid ~ .error-msg {
+      @apply visible;
+    }
   }
 
   .dialog {
@@ -93,6 +118,26 @@
         @apply opacity-0 backdrop:opacity-0;
       }
     }
+  }
+
+  .bg-pattern {
+    --pattern-dot-size: 2px;
+    --pattern-dot-color: light-dark(#f1f5f9 /* slate-100 */, rgba(17, 24, 39, 0.5));
+    --pattern-dot-space: calc(var(--pattern-dot-size) * 4);
+    background-image: radial-gradient(
+        circle at center,
+        var(--pattern-dot-color) var(--pattern-dot-size),
+        transparent 0
+      ),
+      radial-gradient(
+        circle at center,
+        var(--pattern-dot-color) var(--pattern-dot-size),
+        transparent 0
+      );
+    background-size: calc(var(--pattern-dot-space) * 2) calc(var(--pattern-dot-space) * 2);
+    background-position:
+      0 0,
+      var(--pattern-dot-space) var(--pattern-dot-space);
   }
 
   .scrollbar::-webkit-scrollbar {
@@ -136,24 +181,8 @@
     @apply bg-slate-50 dark:bg-zinc-950;
   }
 
-  .bg-pattern {
-    --pattern-dot-size: 2px;
-    --pattern-dot-color: light-dark(#f1f5f9 /* slate-100 */, rgba(17, 24, 39, 0.5));
-    --pattern-dot-space: calc(var(--pattern-dot-size) * 4);
-    background-image: radial-gradient(
-        circle at center,
-        var(--pattern-dot-color) var(--pattern-dot-size),
-        transparent 0
-      ),
-      radial-gradient(
-        circle at center,
-        var(--pattern-dot-color) var(--pattern-dot-size),
-        transparent 0
-      );
-    background-size: calc(var(--pattern-dot-space) * 2) calc(var(--pattern-dot-space) * 2);
-    background-position:
-      0 0,
-      var(--pattern-dot-space) var(--pattern-dot-space);
+  .text-error {
+    @apply text-red-600 dark:text-red-500;
   }
 }
 
