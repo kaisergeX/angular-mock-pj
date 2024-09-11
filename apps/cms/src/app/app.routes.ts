@@ -1,42 +1,10 @@
-import { inject } from '@angular/core';
-import { RedirectCommand, Router, type CanMatchFn, type Routes } from '@angular/router';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { CmsComponent } from './cms/cms.component';
-import { LoginComponent } from './login/login.component';
-import { ProductComponent } from './cms/product/product.component';
+import type { Routes } from '@angular/router';
 import { CategoryComponent } from './cms/category/category.component';
-
-const isAuthenicated = true;
-
-const authCanMatch: CanMatchFn = () => {
-  const router = inject(Router);
-  // const authService = inject(AuthenticationService);
-  // if (!authService.isLoggedIn()) {}
-
-  if (!isAuthenicated) {
-    const currentRoute = router.getCurrentNavigation()?.initialUrl.toString();
-    return new RedirectCommand(router.parseUrl(`/login?redirect=${currentRoute}`), {
-      replaceUrl: true,
-    });
-  }
-
-  return true;
-};
-
-const loginCanMatch: CanMatchFn = () => {
-  const router = inject(Router);
-  // const authService = inject(AuthenticationService);
-  // if (!authService.isLoggedIn()) {}
-
-  if (isAuthenicated) {
-    const redirectTo = router.getCurrentNavigation()?.initialUrl.queryParams['redirect'] || 'cms';
-    return new RedirectCommand(router.parseUrl(redirectTo), {
-      replaceUrl: true,
-    });
-  }
-
-  return true;
-};
+import { CmsComponent } from './cms/cms.component';
+import { ProductComponent } from './cms/product/product.component';
+import { LoginComponent } from './login/login.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { loginCanMatch, authCanMatch } from './utils';
 
 export const routes: Routes = [
   { path: '', title: 'Home', redirectTo: 'cms', pathMatch: 'full' },
