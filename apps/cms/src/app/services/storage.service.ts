@@ -1,5 +1,5 @@
 import { inject, Injectable, InjectionToken } from '@angular/core';
-import type { LocalStorage, SchemaKeys } from 'src/types';
+import type { LocalStorage, SchemaKeys } from '~/types';
 
 const STORAGE_KEY_PREFIX = 'CMS_';
 export const STORAGE_TOKEN = new InjectionToken<Storage>('localStorage Injection Token');

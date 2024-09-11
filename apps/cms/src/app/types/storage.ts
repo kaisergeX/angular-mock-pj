@@ -2,8 +2,7 @@ import type { Extends, Primitives } from './common';
 import type { User } from './user';
 
 type LocalStorageSchema = Partial<NonNullable<User>> & {
-  accessToken?: string;
-  refreshToken?: string;
+  isAuthenticated?: boolean;
 };
 
 type LocalStorageValueGuard = Primitives | unknown[] | Record<string, unknown> | undefined | null;

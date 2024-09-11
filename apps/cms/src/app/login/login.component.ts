@@ -1,18 +1,26 @@
-import { Component, inject, type OnInit } from '@angular/core';
-import { StorageService } from '~/services';
+import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { tablerApiApp } from '@ng-icons/tabler-icons';
+import { AuthService } from '~/services';
+import { newTypedFormData } from '~/utils';
+import type { LoginForm } from './login.model';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [NgIconComponent, FormsModule],
+  providers: provideIcons({ tablerApiApp }),
   templateUrl: './login.component.html',
+  host: {
+    class: 'flex-center flex-col flex-1 gap-4 bg-pattern p-4',
+  },
 })
-export class LoginComponent implements OnInit {
-  storage = inject(StorageService);
+export class LoginComponent {
+  authService = inject(AuthService);
 
-  ngOnInit(): void {
-    this.storage.set('username', 'admin');
-    console.log(this.storage.getAll());
-    this.storage.clear();
+  handleSubmit(event: SubmitEvent): void {
+    const loginFormData = newTypedFormData<LoginForm>(event.target as HTMLFormElement);
+    this.authService.login(Object.fromEntries(loginFormData.entries()) as LoginForm);
   }
 }
