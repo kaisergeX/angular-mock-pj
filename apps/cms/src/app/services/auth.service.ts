@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import type { LoginForm } from '~/login/login.model';
 import { StorageService } from './storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PATH, REDIRECT_PARAM } from '~/configs';
+import { PATH, REDIRECT_PARAM } from '~/constants';
 
 @Injectable({
   providedIn: 'root',

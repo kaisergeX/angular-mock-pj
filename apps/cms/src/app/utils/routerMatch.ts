@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { type CanMatchFn, Router, RedirectCommand } from '@angular/router';
-import { PATH, REDIRECT_PARAM } from '~/configs';
+import { PATH, REDIRECT_PARAM } from '~/constants';
 import { AuthService } from '~/services';
 
 export const authCanMatch: CanMatchFn = () => {

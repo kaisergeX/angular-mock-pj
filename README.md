@@ -8,7 +8,7 @@
 
 ## First time setup
 
-Please check the root [`package.json`](package.json#L24)'s `engines` field for the env requirement, then run:
+Please check the root [`package.json`](package.json#L26)'s `engines` field for the env requirement, then run:
 
 ```
 pnpm startup

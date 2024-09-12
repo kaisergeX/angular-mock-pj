@@ -5,3 +5,10 @@ export const PATH = {
   PRODUCT: 'product',
   CATEGORY: 'category',
 } as const;
+
+export const DEFAULT = {
+  LOCALE: 'en-US',
+  CURRENCY: 'USD',
+} as const;
+
+export const TABLE_SPECIAL_KEYS = ['action'] as const;
