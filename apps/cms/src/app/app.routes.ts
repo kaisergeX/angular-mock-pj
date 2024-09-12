@@ -5,7 +5,7 @@ import { ProductComponent } from './cms/product/product.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { loginCanMatch, authCanMatch } from './utils';
-import { PATH } from './configs';
+import { PATH } from './constants';
 
 export const routes: Routes = [
   { path: '', title: 'Home', redirectTo: PATH.CMS, pathMatch: 'full' },

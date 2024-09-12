@@ -15,107 +15,27 @@
       />
     </div>
   </div>
-  <table class="w-full text-left text-sm rtl:text-right">
-    <thead class="bg-default sticky top-20 z-10 text-xs uppercase">
-      <tr class="[&>th]:px-6 [&>th]:py-3">
-        <th scope="col">Name</th>
-        <th scope="col">Category</th>
-        <th scope="col">Price</th>
-        <th scope="col" class="text-center">Status</th>
-        <th scope="col">Description</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        class="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600 [&>td]:px-6 [&>td]:py-4"
-      >
-        <th
-          scope="row"
-          class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-        >
-          Apple MacBook Pro
-        </th>
-        <td>Laptop</td>
-        <td>$9999</td>
-        <td>
-          <span class="relative mx-auto flex size-3">
-            <span
-              class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75"
-            ></span>
-            <span class="relative inline-flex size-3 rounded-full bg-emerald-500"></span>
-          </span>
-        </td>
-        <td>Lorem ipsum dolor sit amet consectetur</td>
-        <td>
-          <a href="#" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Edit</a>
-        </td>
-      </tr>
-      <tr
-        class="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600 [&>td]:px-6 [&>td]:py-4"
-      >
-        <th
-          scope="row"
-          class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-        >
-          Microsoft Surface Pro
-        </th>
-        <td>Laptop PC</td>
-        <td>$1999</td>
-        <td>
-          <span class="relative mx-auto flex size-3">
-            <span
-              class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75"
-            ></span>
-            <span class="relative inline-flex size-3 rounded-full bg-emerald-500"></span>
-          </span>
-        </td>
-        <td></td>
-        <td>
-          <a href="#" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Edit</a>
-        </td>
-      </tr>
-      <tr
-        class="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600 [&>td]:px-6 [&>td]:py-4"
-      >
-        <th
-          scope="row"
-          class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-        >
-          Apple Watch
-        </th>
-        <td>Accessories</td>
-        <td>$179</td>
-        <td><span class="mx-auto block size-3 rounded-full bg-zinc-300"></span></td>
-        <td></td>
-        <td>
-          <a href="#" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Edit</a>
-        </td>
-      </tr>
-      <tr
-        class="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600 [&>td]:px-6 [&>td]:py-4"
-      >
-        <th
-          scope="row"
-          class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-        >
-          iPad
-        </th>
-        <td>Tablet</td>
-        <td>$699</td>
-        <td>
-          <span class="relative mx-auto flex size-3">
-            <span
-              class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75"
-            ></span>
-            <span class="relative inline-flex size-3 rounded-full bg-emerald-500"></span>
-          </span>
-        </td>
-        <td></td>
-        <td>
-          <a href="#" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Edit</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <table appTable class="w-full text-left text-sm rtl:text-right" [config]="tableConfig"></table>
 </div>
+
+<ng-template #customStatus let-context>
+  @if (context.value === 'active') {
+    <span class="relative mx-auto flex size-3">
+      <span
+        class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75"
+      ></span>
+      <span class="relative inline-flex size-3 rounded-full bg-emerald-500"></span>
+    </span>
+  } @else {
+    <span class="mx-auto block size-3 rounded-full bg-zinc-300"></span>
+  }
+</ng-template>
+
+<ng-template #customAction>
+  <a routerLink="./edit" class="text-sky-600 dark:text-sky-500">
+    <ng-icon size="1.2rem" name="tablerEdit" />
+  </a>
+  <a routerLink="./edit" class="text-rose-600 dark:text-rose-500">
+    <ng-icon size="1.2rem" name="tablerTrash" />
+  </a>
+</ng-template>
