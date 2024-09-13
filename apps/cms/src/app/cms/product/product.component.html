@@ -31,11 +31,15 @@
   }
 </ng-template>
 
-<ng-template #customAction>
-  <a routerLink="./edit" class="text-sky-600 dark:text-sky-500">
+<ng-template #customAction let-context>
+  <a [routerLink]="['./mutation', context.record.id]" class="text-sky-600 dark:text-sky-500">
     <ng-icon size="1.2rem" name="tablerEdit" />
   </a>
-  <a routerLink="./edit" class="text-rose-600 dark:text-rose-500">
+  <button
+    class="text-rose-600 dark:text-rose-500"
+    type="button"
+    (click)="deleteProduct(context.record.id)"
+  >
     <ng-icon size="1.2rem" name="tablerTrash" />
-  </a>
+  </button>
 </ng-template>

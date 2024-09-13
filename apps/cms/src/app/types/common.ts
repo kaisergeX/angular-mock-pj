@@ -25,6 +25,11 @@ export type ResponseError<T = unknown> = Readonly<
   } & T
 >;
 
+export type OutletViewMode = 'mutation' | 'detail';
+export type OutletInputs<TData extends ObjectAny = ObjectAny> = {
+  view: OutletViewMode;
+} & TData;
+
 export type CurrencyPipeOptions = {
   isDiscount?: boolean;
   locale?: string;

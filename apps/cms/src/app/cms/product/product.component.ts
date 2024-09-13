@@ -72,4 +72,8 @@ export class ProductComponent {
     ],
     data: products,
   };
+
+  deleteProduct(id: Product['id']): void {
+    console.log('Delete product with id:', id);
+  }
 }
