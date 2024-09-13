@@ -1,0 +1,19 @@
+<div class="flex-center-between gap-4 p-4">
+  @if (id()) {
+    @switch (view()) {
+      @case ('mutation') {
+        <button class="button" type="button" (click)="redirectView('detail')">
+          <ng-icon size="1.2rem" name="tablerListDetails" />
+          Detail
+        </button>
+      }
+      @default {
+        <button class="button" type="button" (click)="redirectView('mutation')">
+          <ng-icon size="1.2rem" name="tablerEdit" />
+          Edit
+        </button>
+      }
+    }
+  }
+</div>
+<ng-container *ngComponentOutlet="loadView() | async; inputs: viewInputs()" />
