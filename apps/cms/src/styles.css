@@ -18,6 +18,10 @@
     @apply scrollbar;
   }
 
+  :is(input, textarea, select):disabled {
+    @apply bg-zinc-100 opacity-80 dark:bg-zinc-800 dark:opacity-50;
+  }
+
   [popover] {
     --popover-transition-timing-fn: cubic-bezier(0.32, 0.72, 0, 1);
     opacity: 0;
@@ -58,11 +62,11 @@
   }
 
   .link {
-    @apply px-2 py-1 transition-colors hover:rounded-md hover:bg-slate-200;
+    @apply px-2 py-1 transition-colors hover:rounded-md hover:bg-slate-200 dark:hover:bg-zinc-800;
   }
 
   .input {
-    @apply block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500;
+    @apply block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-inherit dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500;
   }
 
   .input-error {
@@ -74,20 +78,25 @@
   }
 
   .input-form {
-    &:not(:placeholder-shown):invalid {
+    /* if using native HTML form then only need &:not(:placeholder-shown):invalid */
+    &:is(:not(:placeholder-shown/* not an empty input */, .ng-untouched.ng-invalid):invalid),
+    &.ng-touched.ng-invalid {
       @apply input-error;
     }
 
-    &:focus:invalid {
+    &:focus:is(:invalid, .ng-invalid) {
       /* Invalid but users are typing, so yellow instead of red (error) */
       @apply input-warn;
     }
   }
 
-  .form-ctrl {
-    & > input:not(:placeholder-shown):invalid ~ .error-msg {
-      @apply visible;
-    }
+  .form-ctrl
+    > :where(input, textarea, select):where(
+      :not(:placeholder-shown, .ng-untouched.ng-invalid):invalid, /* if using native HTML form, only need :not(:placeholder-shown):invalid */
+      .ng-touched.ng-invalid
+    )
+    ~ .error-msg {
+    @apply visible;
   }
 
   .dialog {
@@ -138,6 +147,10 @@
     background-position:
       0 0,
       var(--pattern-dot-space) var(--pattern-dot-space);
+  }
+
+  .bg-floating {
+    @apply bg-default sm:rounded-lg sm:shadow-md dark:border dark:border-zinc-50/10 dark:shadow-none;
   }
 
   .scrollbar::-webkit-scrollbar {

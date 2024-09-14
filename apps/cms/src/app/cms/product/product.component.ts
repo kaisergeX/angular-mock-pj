@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, TemplateRef, viewChild } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { tablerEdit, tablerSearch, tablerTrash } from '@ng-icons/tabler-icons';
+import { tablerEdit, tablerPlus, tablerSearch, tablerTrash } from '@ng-icons/tabler-icons';
 import type { Product } from './product.model';
 import { TableComponent } from '~/components/table/table.component';
 import type { TableCellContext, TableConfig } from '~/types';
@@ -41,7 +41,7 @@ const products: Product[] = [
   selector: 'app-product',
   standalone: true,
   imports: [NgIconComponent, TableComponent, RouterLink],
-  providers: provideIcons({ tablerSearch, tablerEdit, tablerTrash }),
+  providers: provideIcons({ tablerSearch, tablerEdit, tablerTrash, tablerPlus }),
   templateUrl: './product.component.html',
   host: {
     class: 'p-4 block overflow-hidden',
