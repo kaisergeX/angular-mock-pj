@@ -1,5 +1,26 @@
-<nav cmsNav class="max-w-xs basis-1/5 shadow-[2px_0_4px_0_rgb(0_0_0/0.05)]"></nav>
-<div class="bg-pattern flex h-dvh flex-1 flex-col">
+<nav
+  cmsNav
+  [ngClass]="[
+    openNav ? '' : 'sm-only:hidden sm-only:-translate-x-full sm-only:opacity-0',
+    'sm-only:fixed sm-only:inset-0 sm-only:z-20 sm-only:h-dvh sm-only:w-full',
+  ]"
+  class="transition-hidden bg-default shadow-[2px_0_4px_0_rgb(0_0_0/0.05)] sm:max-w-xs sm:basis-1/5"
+  (routerChange)="openNav = false"
+></nav>
+
+<div class="bg-pattern flex h-dvh min-w-0 flex-1 flex-col">
+  <button
+    class="bg-default fixed left-2 top-2 z-[11] rounded-lg p-1 shadow-sm sm:hidden"
+    type="button"
+    (click)="openNav = true"
+  >
+    <ng-icon size="1.5rem" name="tablerMenu2" />
+  </button>
+  @if (openNav) {
+    <button class="fixed right-4 top-4 z-20" type="button" (click)="openNav = false">
+      <ng-icon size="1.5rem" name="tablerLayoutSidebarLeftCollapse" />
+    </button>
+  }
   <app-header />
 
   <router-outlet />

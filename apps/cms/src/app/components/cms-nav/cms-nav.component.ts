@@ -1,5 +1,6 @@
-import { Component, effect, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, effect, inject, output, type OnInit } from '@angular/core';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { filter } from 'rxjs';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   tablerDevices,
@@ -19,15 +20,27 @@ import { AuthService, StorageService } from '~/services';
     class: 'px-2 py-4 flex flex-col gap-2 justify-between',
   },
 })
-export class CmsNavComponent {
+export class CmsNavComponent implements OnInit {
+  routerChange = output<string>();
+
+  #router = inject(Router);
   #storage = inject(StorageService);
   #authService = inject(AuthService);
+
   username = this.#storage.get('username');
 
   constructor() {
     effect(() => {
       this.username = this.#authService.isAuthenticated() ? this.#storage.get('username') : '';
     });
+  }
+
+  ngOnInit() {
+    this.#router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(({ url }) => {
+        this.routerChange.emit(url);
+      });
   }
 
   logout(): void {

@@ -1,5 +1,97 @@
-@if (productId()) {
-  <p>Edit Product page<br />productId: {{ productId() }}</p>
-} @else {
-  <p>Create Product page</p>
-}
+<p class="mb-4">
+  @if (productId()) {
+    Edit Product page<br />productId: {{ productId() }}
+  } @else {
+    Create Product page
+  }
+</p>
+<form
+  class="bg-floating mx-auto max-w-screen-xl grid-cols-2 gap-x-4 gap-y-1 rounded-md p-4 sm:grid sm:gap-x-6 sm:gap-y-2 [&_input]:h-10"
+  [formGroup]="form"
+  (ngSubmit)="handleSubmit()"
+>
+  <label class="form-ctrl">
+    Name
+    <input
+      class="input input-form text-green-400"
+      type="text"
+      name="name"
+      formControlName="name"
+      placeholder="Enter product name"
+      minlength="3"
+      required
+    />
+    <p class="error-msg text-error invisible mt-1 text-sm">
+      Name must be at least 3 characters long
+    </p>
+  </label>
+
+  <label class="form-ctrl">
+    Price ($)
+    <input
+      class="input input-form"
+      type="number"
+      name="price"
+      formControlName="price"
+      placeholder="Enter product price"
+      min="100"
+      required
+    />
+    <p class="error-msg text-error invisible mt-1 text-sm">{{ form.getError('msg', 'price') }}</p>
+  </label>
+
+  <!-- <label class="form-ctrl">
+    Image
+    <input
+      class="input input-form"
+      type="text"
+      name="image"
+      formControlName="image"
+      placeholder="Enter product image URL"
+    />
+  </label> -->
+
+  <label class="form-ctrl col-span-2">
+    Description
+    <textarea
+      class="input input-form"
+      name="description"
+      formControlName="description"
+      placeholder="Enter product description"
+    ></textarea>
+    <p class="error-msg text-error invisible mt-1 text-sm">
+      Description must be at least 3 characters long
+    </p>
+  </label>
+
+  <label class="form-ctrl">
+    Category
+    <select class="input input-form" name="category" formControlName="category" required>
+      <option value="1">Electronics</option>
+      <option value="2">Clothing</option>
+      <option value="3">Furniture</option>
+    </select>
+    <p class="error-msg text-error invisible mt-1 text-sm">Category is required</p>
+  </label>
+
+  <label class="form-ctrl">
+    Status
+    <select class="input input-form" name="status" formControlName="status" required>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </select>
+  </label>
+
+  <div class="col-span-2 mt-4">
+    <button class="button" type="submit" [disabled]="loading">
+      @if (loading) {
+        <ng-icon class="animate-spin" size="1.2rem" name="tablerLoader2" />
+      }
+      @if (productId()) {
+        Update
+      } @else {
+        Create
+      }
+    </button>
+  </div>
+</form>
