@@ -44,7 +44,7 @@ const products: Product[] = [
   providers: provideIcons({ tablerSearch, tablerEdit, tablerTrash, tablerPlus }),
   templateUrl: './product.component.html',
   host: {
-    class: 'p-4 block overflow-hidden',
+    class: 'sm:p-4 flex-1 overflow-hidden',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

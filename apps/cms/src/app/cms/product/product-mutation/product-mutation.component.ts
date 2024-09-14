@@ -18,7 +18,7 @@ type ProductForm = OptionalToNullable<Omit<Product, 'id'>>;
   providers: provideIcons({ tablerCurrencyDollar, tablerLoader2 }),
   templateUrl: './product-mutation.component.html',
   host: {
-    class: 'p-4 block',
+    class: 'sm:p-4 block',
   },
 })
 export class ProductMutationComponent {
