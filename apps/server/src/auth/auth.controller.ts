@@ -9,6 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { AuthDto, JwtPayload } from './dto/auth.dto';
 import { JwtAuthGuard } from './auth.guard';
+import { AuthData, UserData } from '@repo/shared';
 
 @Controller('auth')
 export class AuthController {
@@ -20,13 +21,13 @@ export class AuthController {
   }
 
   @Post('signin')
-  signIn(@Body() authCredentials: AuthDto) {
+  signIn(@Body() authCredentials: AuthDto): Promise<AuthData> {
     return this.authService.signIn(authCredentials);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  getProfile(@Request() req: { user: JwtPayload }) {
+  getProfile(@Request() req: { user: JwtPayload }): Promise<UserData> {
     return this.authService.getProfile(req.user);
   }
 }

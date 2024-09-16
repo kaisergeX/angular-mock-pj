@@ -17,10 +17,10 @@ import type { LoginForm } from './login.model';
   },
 })
 export class LoginComponent {
-  authService = inject(AuthService);
+  #authService = inject(AuthService);
 
   handleSubmit(event: SubmitEvent): void {
     const loginFormData = newTypedFormData<LoginForm>(event.target as HTMLFormElement);
-    this.authService.login(Object.fromEntries(loginFormData.entries()) as LoginForm);
+    this.#authService.login(Object.fromEntries(loginFormData.entries()) as LoginForm);
   }
 }

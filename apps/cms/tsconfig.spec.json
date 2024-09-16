@@ -10,6 +10,7 @@
   },
   "include": [
     "src/**/*.spec.ts",
+    "src/environments/*.ts",
     "src/**/*.d.ts"
   ]
 }

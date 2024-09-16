@@ -31,15 +31,17 @@ export type Payload<T = Record<string, Primitives>> = T & {
 };
 
 export type RequestParams<T = Primitives> = Record<string, T>;
+
 export type ResponseData<T = unknown> = Readonly<{
   message: string;
-  responseCode: number;
+  statusCode: number;
   data: T;
 }>;
+
 export type ResponseError<T = unknown> = Readonly<
   {
-    path: string;
-    timestamp: string;
-    traceId: string;
+    message: string;
+    error: string;
+    statusCode: number;
   } & T
 >;
