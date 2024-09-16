@@ -55,6 +55,15 @@ export class AuthService {
   logout(): void {
     this.#storage.clear();
     this.#isAuth.set(false);
-    this.#router.navigate([PATH.LOGIN], { queryParams: { [REDIRECT_PARAM]: this.#router.url } });
+
+    const currentUrl = this.#router.url;
+    if (currentUrl.includes(PATH.LOGIN)) {
+      return;
+    }
+
+    const redirectUrl =
+      new URLSearchParams(currentUrl.split('?')[1]).get(REDIRECT_PARAM) || // if current url has redirect param, then reuse it
+      currentUrl;
+    this.#router.navigate([PATH.LOGIN], { queryParams: { [REDIRECT_PARAM]: redirectUrl } });
   }
 }

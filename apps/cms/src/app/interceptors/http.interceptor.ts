@@ -2,7 +2,7 @@ import { type HttpErrorResponse, type HttpInterceptorFn } from '@angular/common/
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { StorageService } from '~/services';
+import { AuthService, StorageService } from '~/services';
 import { processResponseErr, ServerError } from '~/utils';
 
 function processBaseUrl(url: string): string {
@@ -15,6 +15,7 @@ function processBaseUrl(url: string): string {
 
 export const httpInterceptor: HttpInterceptorFn = (request, next) => {
   const storage = inject(StorageService);
+  const authService = inject(AuthService);
   const accessToken = storage.get('accessToken');
 
   const req = request.clone({
@@ -39,7 +40,7 @@ export const httpInterceptor: HttpInterceptorFn = (request, next) => {
       const resError = processResponseErr(err);
       switch (resError.statusCode) {
         case 401: {
-          storage.clear();
+          authService.logout();
           break;
         }
         default:

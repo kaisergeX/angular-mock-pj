@@ -20,7 +20,13 @@ export class LoginComponent {
   #authService = inject(AuthService);
 
   handleSubmit(event: SubmitEvent): void {
-    const loginFormData = newTypedFormData<LoginForm>(event.target as HTMLFormElement);
+    const formElement = event.target as HTMLFormElement;
+    if (!formElement.checkValidity()) {
+      event.preventDefault();
+      return;
+    }
+
+    const loginFormData = newTypedFormData<LoginForm>(formElement);
     this.#authService.login(Object.fromEntries(loginFormData.entries()) as LoginForm);
   }
 }
