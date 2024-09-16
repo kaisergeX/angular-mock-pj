@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidator } from './configs';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -11,8 +12,19 @@ import { configValidator } from './configs';
       // envFilePath: [`.env.${process.env.STAGE}`],
       validate: configValidator,
     }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'sqlite',
+        database: configService.get('DB_DATABASE'),
+        autoLoadEntities: true,
+        // synchronize: true,
+      }),
+    }),
+    AuthModule,
+    ProductsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [ConfigModule],
 })
 export class AppModule {}

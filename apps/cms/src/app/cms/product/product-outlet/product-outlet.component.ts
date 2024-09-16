@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerEdit, tablerListDetails } from '@ng-icons/tabler-icons';
-import type { Product } from '@repo/shared';
+import type { ProductSchema } from '@repo/shared';
 import { PATH } from '~/constants';
 import type { OutletInputs, OutletViewMode } from '~/types';
 
-export type ProductOutletInputs = OutletInputs<{ id?: Product['id'] }>;
+export type ProductOutletInputs = OutletInputs<{ id?: ProductSchema['id'] }>;
 
 @Component({
   selector: 'app-product-outlet',
@@ -18,7 +18,7 @@ export type ProductOutletInputs = OutletInputs<{ id?: Product['id'] }>;
 })
 export class ProductOutletComponent {
   view = input.required<OutletViewMode>();
-  id = input<Product['id']>(); // undefined means create new product
+  id = input<ProductSchema['id']>(); // undefined means create new product
   #route = inject(Router);
 
   viewInputs = computed<ProductOutletInputs>(() => ({

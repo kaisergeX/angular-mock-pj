@@ -5,7 +5,7 @@
 export type Primitives = string | number | boolean;
 export type ObjectAny = Record<PropertyKey, unknown>;
 export type Extends<T, U extends T> = U;
-type ObjectDetail<T extends ObjectAny> = { [K in keyof T]: T[K] };
+export type ObjectDetail<T> = { [K in keyof T]: T[K] };
 
 /** Make provided keys required in an object type */
 export type RequiredByKeys<T, K extends keyof T> = ObjectDetail<T & { [P in K]-?: T[P] }>;
@@ -31,12 +31,11 @@ export type Payload<T = Record<string, Primitives>> = T & {
 };
 
 export type RequestParams<T = Primitives> = Record<string, T>;
-export type ResponseData<T = unknown> = Readonly<
-  {
-    message: string;
-    responseCode: number;
-  } & T
->;
+export type ResponseData<T = unknown> = Readonly<{
+  message: string;
+  responseCode: number;
+  data: T;
+}>;
 export type ResponseError<T = unknown> = Readonly<
   {
     path: string;

@@ -46,6 +46,10 @@ coverage
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
+# Local database
+db
+*.sqlite
+
 # Dependency directories
 node_modules/
 jspm_packages/

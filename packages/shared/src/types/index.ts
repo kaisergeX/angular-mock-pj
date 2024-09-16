@@ -1,4 +1,4 @@
 export type * from './common';
 export type { TypedFormData, TypedFormDataValue } from './form-data';
-export type { User } from './system';
-export type { Product } from './cms-product';
+export type { UserSchema, UserData } from './system';
+export type { ProductSchema, CreateProductRequest } from './cms-product';
