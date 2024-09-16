@@ -43,6 +43,12 @@ module.exports = tseslint.config(
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrors: 'none' },
       ],
     },
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        // project: ['tsconfig.(app|spec).json'],
+      },
+    },
   },
   {
     files: ['**/*.html'],

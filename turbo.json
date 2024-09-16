@@ -10,6 +10,9 @@
     "lint": {
       "dependsOn": ["^lint"]
     },
+    "angular-mockup-pj#lint":{
+      "dependsOn": ["@repo/shared#build", "^lint"]
+    },
     "gen-env":{
       "cache": false
     },

@@ -1,13 +1,13 @@
 import { Component, inject, input } from '@angular/core';
-import type { ProductOutletInputs } from '../product-outlet/product-outlet.component';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ToastService } from '~/toast.service';
-import type { Product } from '../product.model';
-import type { OptionalToNullable, ToFormBuilder } from '~/types';
+import { Router } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerCurrencyDollar, tablerLoader2 } from '@ng-icons/tabler-icons';
-import { Router } from '@angular/router';
-import { PATH } from '~/constants';
+import type { OptionalToNullable, Product } from '@repo/shared';
+import { ToastService } from '~/toast.service';
+import type { ToFormBuilder } from '~/types';
+import { DEFAULT, PATH } from '~/constants';
+import type { ProductOutletInputs } from '../product-outlet/product-outlet.component';
 
 type ProductForm = OptionalToNullable<Omit<Product, 'id'>>;
 
@@ -28,6 +28,7 @@ export class ProductMutationComponent {
   #fb = inject(FormBuilder);
   #router = inject(Router);
   loading = false;
+  priceUnit = DEFAULT.CURRENCY;
 
   form = this.#fb.group<ToFormBuilder<ProductForm>>({
     name: this.#fb.control('', { validators: Validators.required, nonNullable: true }),

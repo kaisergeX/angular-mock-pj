@@ -1,4 +1,4 @@
-import { Component, inject, type OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, type OnInit } from '@angular/core';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -15,6 +15,7 @@ import { filter } from 'rxjs';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
+  #destroyRef = inject(DestroyRef);
   #router = inject(Router);
   #activatedRoute = inject(ActivatedRoute);
 
@@ -23,8 +24,14 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.updateHeader();
-    this.#router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
-      this.updateHeader();
+    const routerSubscription = this.#router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.updateHeader();
+      });
+
+    this.#destroyRef.onDestroy(() => {
+      routerSubscription.unsubscribe();
     });
   }
 

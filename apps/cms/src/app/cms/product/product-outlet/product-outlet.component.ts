@@ -1,11 +1,11 @@
 import { Component, computed, effect, inject, input } from '@angular/core';
-import type { Product } from '../product.model';
 import { Router } from '@angular/router';
-import { PATH } from '~/constants';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import type { OutletInputs, OutletViewMode } from '~/types';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerEdit, tablerListDetails } from '@ng-icons/tabler-icons';
+import type { Product } from '@repo/shared';
+import { PATH } from '~/constants';
+import type { OutletInputs, OutletViewMode } from '~/types';
 
 export type ProductOutletInputs = OutletInputs<{ id?: Product['id'] }>;
 
