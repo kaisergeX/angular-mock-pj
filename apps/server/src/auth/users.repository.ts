@@ -7,14 +7,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { JwtService } from '@nestjs/jwt';
+import { UserData } from '@repo/shared';
 import { QueryFailedError, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
 import { AuthDto, JwtPayload } from './dto/auth.dto';
 import { User } from './user.entity';
 import { sqliteEnumErr } from '~/utils';
 import { SQLITE_CONSTRAINT_MSG } from '~/constants/sqlite-err';
-import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -60,11 +60,12 @@ export class UserRepository {
     const user = await this.userRepo.findOneBy({ username });
 
     if (!user) {
-      throw new NotFoundException(`User ${username} not found`);
+      // this.#logger.error(`User ${username} not found`);
+      throw new NotFoundException('Invalid username or password');
     }
 
     if (!(await bcrypt.compare(password, user.password))) {
-      throw new UnauthorizedException('Invalid credential');
+      throw new UnauthorizedException('Invalid username or password');
     }
 
     return this.generateJwtToken({ username });
@@ -80,7 +81,7 @@ export class UserRepository {
     return user;
   }
 
-  async getUserProfile(username: string): Promise<UserDto> {
+  async getUserProfile(username: string): Promise<UserData> {
     const user = await this.getUserData(username);
     return { username: user.username };
   }

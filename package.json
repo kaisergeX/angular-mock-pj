@@ -1,6 +1,7 @@
 {
   "name": "signal-proxy",
   "private": true,
+  "description": "A simple fullstack app using Angular and NestJS",
   "scripts": {
     "build": "turbo run lint build",
     "build:pkgs": "turbo build --filter=./packages/*",

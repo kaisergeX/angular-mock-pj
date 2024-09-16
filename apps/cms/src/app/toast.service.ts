@@ -11,8 +11,8 @@ type ToastConfig = {
 const initToastConfig: ToastConfig = {
   show: false,
   type: 'success',
-  autoClose: 3000,
-  hasCloseBtn: true,
+  autoClose: 4000,
+  hasCloseBtn: false,
 };
 
 @Injectable({

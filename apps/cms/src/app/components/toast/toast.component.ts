@@ -6,13 +6,15 @@ import {
   viewChild,
   type AfterViewInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ToastService } from '../../toast.service';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { tablerCircleCheck, tablerExclamationCircle, tablerX } from '@ng-icons/tabler-icons';
 
 @Component({
   selector: 'app-toast',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgIconComponent],
+  providers: provideIcons({ tablerExclamationCircle, tablerCircleCheck, tablerX }),
   templateUrl: './toast.component.html',
 })
 export class ToastComponent implements AfterViewInit {
@@ -31,11 +33,12 @@ export class ToastComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.toastRef().nativeElement.addEventListener('toggle', (event) => {
       const toggleEvent = event as ToggleEvent;
-      if (toggleEvent.newState === 'open') {
+      const autoClose = this.toastData().autoClose;
+      if (toggleEvent.newState === 'open' && autoClose) {
         setTimeout(() => {
           this.toastRef().nativeElement.hidePopover();
           this.#toastService.hide();
-        }, this.toastData().autoClose || 0);
+        }, autoClose);
       }
     });
   }
