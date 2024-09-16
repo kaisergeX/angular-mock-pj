@@ -8,7 +8,8 @@ import {
   type OnChanges,
   type SimpleChanges,
 } from '@angular/core';
-import type { ObjectAny, TableCellContext } from '~/types';
+import type { ObjectAny } from '@repo/shared';
+import type { TableCellContext } from '~/types';
 
 @Directive({
   selector: '[appTableCellRender]',

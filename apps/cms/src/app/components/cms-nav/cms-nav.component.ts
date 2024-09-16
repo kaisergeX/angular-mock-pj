@@ -1,4 +1,4 @@
-import { Component, effect, inject, output, type OnInit } from '@angular/core';
+import { Component, DestroyRef, effect, inject, output, type OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -23,6 +23,7 @@ import { AuthService, StorageService } from '~/services';
 export class CmsNavComponent implements OnInit {
   routerChange = output<string>();
 
+  #destroyRef = inject(DestroyRef);
   #router = inject(Router);
   #storage = inject(StorageService);
   #authService = inject(AuthService);
@@ -36,11 +37,15 @@ export class CmsNavComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.#router.events
+    const routerSubscription = this.#router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(({ url }) => {
         this.routerChange.emit(url);
       });
+
+    this.#destroyRef.onDestroy(() => {
+      routerSubscription.unsubscribe();
+    });
   }
 
   logout(): void {

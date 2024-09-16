@@ -1,0 +1,28 @@
+{
+  "name": "@repo/shared",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b && vite build",
+    "lint": "tsc --noEmit && eslint src --report-unused-disable-directives --max-warnings 0"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/shared.umd.cjs",
+  "module": "./dist/shared.js",
+  "types": "./dist/shared.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/shared.js",
+      "require": "./dist/shared.umd.cjs"
+    }
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.1",
+    "vite-plugin-dts": "^4.2.1"
+  }
+}

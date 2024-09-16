@@ -6,9 +6,10 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import type { ObjectAny, TableCellContext, TableConfig } from '~/types';
-import { TableCellDirective } from './table-cell.directive';
 import { CommonModule } from '@angular/common';
+import type { ObjectAny } from '@repo/shared';
+import type { TableCellContext, TableConfig } from '~/types';
+import { TableCellDirective } from './table-cell.directive';
 import { CustomCurrencyPipe } from '~/pipes';
 
 @Component({

@@ -25,6 +25,6 @@ export class AuthService {
   logout(): void {
     this.#storage.clear();
     this.#isAuth.set(false);
-    this.#router.navigateByUrl(`${PATH.LOGIN}?${REDIRECT_PARAM}=${this.#router.url}`);
+    this.#router.navigate([PATH.LOGIN], { queryParams: { [REDIRECT_PARAM]: this.#router.url } });
   }
 }

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, TemplateRef, viewChild } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerEdit, tablerPlus, tablerSearch, tablerTrash } from '@ng-icons/tabler-icons';
-import type { Product } from './product.model';
+import type { Product } from '@repo/shared';
 import { TableComponent } from '~/components/table/table.component';
 import type { TableCellContext, TableConfig } from '~/types';
 import { RouterLink } from '@angular/router';
@@ -10,28 +10,28 @@ const products: Product[] = [
   {
     id: 1,
     name: 'Apple MacBook Pro',
-    price: 50_000_000,
+    price: 50_000,
     category: 'Laptop',
     status: 'active',
   },
   {
     id: 2,
     name: 'Apple Watch',
-    price: 15_000_000,
+    price: 15_000,
     category: 'Accessories',
     status: 'active',
   },
   {
     id: 3,
     name: 'Microsoft Surface Pro',
-    price: 40_000_000,
+    price: 40_000,
     category: 'Laptop',
     status: 'inactive',
   },
   {
     id: 4,
     name: 'iPad',
-    price: 20_000_000,
+    price: 20_000,
     category: 'Tablet',
     status: 'active',
   },
@@ -59,7 +59,7 @@ export class ProductComponent {
         key: 'price',
         header: 'Price',
         type: 'currency',
-        currencyOptions: { currency: 'VND', locale: 'vi' },
+        // currencyOptions: { currency: 'VND', locale: 'vi' },
       },
       { key: 'category', header: 'Category' },
       { key: 'status', header: 'Status', align: 'center', template: this.statusTemplate },

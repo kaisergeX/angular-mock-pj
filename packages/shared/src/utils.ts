@@ -1,4 +1,4 @@
-import type { TypedFormData, TypedFormDataValue } from '~/types';
+import type { TypedFormData, TypedFormDataValue } from './types';
 
 export function newTypedFormData<T extends Record<string, TypedFormDataValue>>(
   form?: HTMLFormElement | null,

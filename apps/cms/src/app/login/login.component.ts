@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerApiApp } from '@ng-icons/tabler-icons';
+import { newTypedFormData } from '@repo/shared';
 import { AuthService } from '~/services';
-import { newTypedFormData } from '~/utils';
 import type { LoginForm } from './login.model';
 
 @Component({

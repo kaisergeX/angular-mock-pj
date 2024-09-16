@@ -1,7 +1,7 @@
 import { Pipe, type PipeTransform } from '@angular/core';
+import { safeAnyToNumber } from '@repo/shared';
 import { DEFAULT } from '~/constants';
 import type { CurrencyPipeOptions } from '~/types';
-import { safeAnyToNumber } from '~/utils';
 
 @Pipe({
   name: 'customCurrency',
