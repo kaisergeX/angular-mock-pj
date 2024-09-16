@@ -2,7 +2,7 @@
   "name": "signal-proxy",
   "private": true,
   "scripts": {
-    "build": "turbo build",
+    "build": "turbo run lint build",
     "build:pkgs": "turbo build --filter=./packages/*",
     "gen:env": "turbo gen-env",
     "dev": "turbo dev",
