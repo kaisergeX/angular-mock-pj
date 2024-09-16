@@ -1,39 +1,41 @@
 import { ChangeDetectionStrategy, Component, TemplateRef, viewChild } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerEdit, tablerPlus, tablerSearch, tablerTrash } from '@ng-icons/tabler-icons';
-import type { Product } from '@repo/shared';
+import { ProductStatus, type ObjectDetail, type ProductSchema } from '@repo/shared';
 import { TableComponent } from '~/components/table/table.component';
 import type { TableCellContext, TableConfig } from '~/types';
 import { RouterLink } from '@angular/router';
 
-const products: Product[] = [
+type Product = ObjectDetail<ProductSchema>;
+
+const products: ProductSchema[] = [
   {
     id: 1,
     name: 'Apple MacBook Pro',
     price: 50_000,
     category: 'Laptop',
-    status: 'active',
+    status: ProductStatus.ACTIVE,
   },
   {
     id: 2,
     name: 'Apple Watch',
     price: 15_000,
     category: 'Accessories',
-    status: 'active',
+    status: ProductStatus.ACTIVE,
   },
   {
     id: 3,
     name: 'Microsoft Surface Pro',
     price: 40_000,
     category: 'Laptop',
-    status: 'inactive',
+    status: ProductStatus.INACTIVE,
   },
   {
     id: 4,
     name: 'iPad',
     price: 20_000,
     category: 'Tablet',
-    status: 'active',
+    status: ProductStatus.ACTIVE,
   },
 ];
 

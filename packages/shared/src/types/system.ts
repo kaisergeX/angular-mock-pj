@@ -1,4 +1,7 @@
-export type User = {
+export interface UserSchema {
+  id: string;
   username: string;
-  avatar?: string;
-};
+  password: string;
+}
+
+export type UserData = Omit<UserSchema, 'id' | 'password'>;

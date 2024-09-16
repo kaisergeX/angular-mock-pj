@@ -1,6 +1,6 @@
-import type { Extends, Primitives, User } from '@repo/shared';
+import type { Extends, Primitives, UserData } from '@repo/shared';
 
-type LocalStorageSchema = Partial<NonNullable<User>> & {
+type LocalStorageSchema = Partial<NonNullable<UserData>> & {
   isAuthenticated?: boolean;
 };
 

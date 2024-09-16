@@ -3,13 +3,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerCurrencyDollar, tablerLoader2 } from '@ng-icons/tabler-icons';
-import type { OptionalToNullable, Product } from '@repo/shared';
+import { type OptionalToNullable, type CreateProductRequest, ProductStatus } from '@repo/shared';
 import { ToastService } from '~/toast.service';
 import type { ToFormBuilder } from '~/types';
 import { DEFAULT, PATH } from '~/constants';
 import type { ProductOutletInputs } from '../product-outlet/product-outlet.component';
 
-type ProductForm = OptionalToNullable<Omit<Product, 'id'>>;
+type ProductForm = OptionalToNullable<CreateProductRequest>;
 
 @Component({
   selector: 'app-product-mutation',
@@ -43,7 +43,7 @@ export class ProductMutationComponent {
       nonNullable: true,
     }),
     category: this.#fb.control('', { validators: Validators.required, nonNullable: true }),
-    status: this.#fb.control('inactive', {
+    status: this.#fb.control(ProductStatus.INACTIVE, {
       validators: Validators.pattern(/^(active|inactive)$/),
       nonNullable: true,
     }),

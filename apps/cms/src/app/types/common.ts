@@ -18,6 +18,7 @@ export type CurrencyPipeOptions = {
 // ========================================================================
 
 export type OutletViewMode = 'mutation' | 'detail';
+
 export type OutletInputs<TData extends ObjectAny = ObjectAny> = {
   view: OutletViewMode;
 } & TData;
