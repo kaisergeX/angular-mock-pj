@@ -7,6 +7,9 @@ export type ObjectAny = Record<PropertyKey, unknown>;
 export type Extends<T, U extends T> = U;
 export type ObjectDetail<T> = { [K in keyof T]: T[K] };
 
+/** Make all properties of an object type writable */
+export type Writable<T> = { -readonly [P in keyof T]: T[P] };
+
 /** Make provided keys required in an object type */
 export type RequiredByKeys<T, K extends keyof T> = ObjectDetail<T & { [P in K]-?: T[P] }>;
 

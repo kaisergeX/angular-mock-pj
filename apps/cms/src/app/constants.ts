@@ -2,6 +2,7 @@ export const REDIRECT_PARAM = 'redirect';
 export const PATH = {
   CMS: 'cms',
   LOGIN: 'login',
+  SIGN_UP: 'signup',
   PRODUCT: 'product',
   CATEGORY: 'category',
 } as const;

@@ -1,19 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { tablerApiApp } from '@ng-icons/tabler-icons';
-import { newTypedFormData } from '@repo/shared';
+import { RouterLink } from '@angular/router';
+import { newTypedFormData, type LoginRequest } from '@repo/shared';
 import { AuthService } from '~/services';
-import type { LoginForm } from './login.model';
+import { AuthLayoutComponent } from '~/components';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [NgIconComponent, FormsModule],
-  providers: provideIcons({ tablerApiApp }),
+  imports: [FormsModule, RouterLink, AuthLayoutComponent],
   templateUrl: './login.component.html',
   host: {
-    class: 'flex-center flex-col flex-1 gap-4 bg-pattern p-4',
+    class: 'contents',
   },
 })
 export class LoginComponent {
@@ -26,7 +24,7 @@ export class LoginComponent {
       return;
     }
 
-    const loginFormData = newTypedFormData<LoginForm>(formElement);
-    this.#authService.login(Object.fromEntries(loginFormData.entries()) as LoginForm);
+    const loginFormData = newTypedFormData<LoginRequest>(formElement);
+    this.#authService.login(Object.fromEntries(loginFormData.entries()) as LoginRequest);
   }
 }

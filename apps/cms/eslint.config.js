@@ -1,6 +1,6 @@
 /**
  * This file is redundant, it just a temporary workaround to fix the angular-eslint plugin issue
- * ref: https://github.com/angular-eslint/angular-eslint/issues/1280#issuecomment-2048204187 TL;DR: angular-eslint can't resolve the root eslint.config.js file via `eslintConfig` option.
+ * ref: https://github.com/angular-eslint/angular-eslint/issues/1280#issuecomment-2048204187 TL;DR: angular-eslint can't resolve the root eslint.config.mjs file via `eslintConfig` option.
  *
  * With monorepo setup, it only needs just one eslint flat config file in the root (https://github.com/eslint/eslint/discussions/16960#discussioncomment-5212286).
  */

@@ -18,7 +18,7 @@ export class AuthService {
     return { accessToken };
   }
 
-  async getProfile(user: UserDto): Promise<UserData> {
+  getProfile(user: UserDto): Promise<UserData> {
     return this.userCustomRepo.getUserProfile(user.username);
   }
 }

@@ -31,7 +31,11 @@ export class UserRepository {
     return bcrypt.hash(password, salt);
   }
 
-  async createUser({ username, password }: AuthDto) {
+  async createUser({ username, password, confirmPassword }: AuthDto) {
+    if (password !== confirmPassword) {
+      throw new ConflictException('Password does not match');
+    }
+
     const hashedPassword = await this.hashPassword(password);
     const user = this.userRepo.create({
       username,
