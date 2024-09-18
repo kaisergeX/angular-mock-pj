@@ -1,3 +1,5 @@
+<h1 class="cms-safe-area mb-4 font-semibold sm-only:mt-4">Product</h1>
+
 <div class="sm:bg-floating flex max-h-full flex-col gap-4 overflow-hidden">
   <div class="flex-center-between gap-4 bg-white p-4 dark:bg-inherit">
     <div class="flex-1">
@@ -19,8 +21,13 @@
 
     <a routerLink="./mutation" class="button"><ng-icon size="1.2rem" name="tablerPlus" />Create</a>
   </div>
-  <div class="h-full w-full overflow-auto">
-    <table appTable class="w-full text-left text-sm rtl:text-right" [config]="tableConfig"></table>
+  <div class="relative h-full w-full overflow-auto">
+    <app-loading-overlay [show]="productsQuery.isLoading()" />
+    <table
+      appTable
+      class="w-full text-left text-sm rtl:text-right"
+      [config]="tableConfig()"
+    ></table>
   </div>
 </div>
 

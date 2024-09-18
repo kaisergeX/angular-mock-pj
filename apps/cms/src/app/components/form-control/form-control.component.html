@@ -1,0 +1,6 @@
+{{ label() }}
+@if (showAsterisk() || showAsterisk() === '') {
+  <span class="text-error">*</span>
+}
+<ng-content />
+<p class="error-msg text-error invisible mt-1 text-sm">{{ definedErrMsg() }}</p>

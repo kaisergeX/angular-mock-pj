@@ -1,7 +1,8 @@
-import type { TemplateRef } from '@angular/core';
+import type { Signal, TemplateRef } from '@angular/core';
 import type { FormControl } from '@angular/forms';
 import type { ObjectAny } from '@repo/shared';
 import type { TABLE_SPECIAL_KEYS } from '~/constants';
+import type { ServerError } from '~/utils';
 
 export type ToFormBuilder<TSchema extends ObjectAny> = {
   [K in keyof TSchema]: FormControl<TSchema[K]>;
@@ -12,6 +13,16 @@ export type CurrencyPipeOptions = {
   locale?: string;
   currency?: string;
 };
+
+export type SignalQuery<T = unknown> = Readonly<{ isLoading: Signal<boolean>; data: Signal<T> }>;
+export type SignalMutationReturnType<T = unknown> = Readonly<{
+  isLoading: Signal<boolean>;
+  mutate: (requestData: T) => void;
+}>;
+export type SignalMutation<TPayload = unknown> = (config?: {
+  onSuccess?: () => void;
+  onError?: (err: ServerError) => void;
+}) => SignalMutationReturnType<TPayload>;
 
 // ========================================================================
 // =                              Layout                                  =

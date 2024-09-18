@@ -11,11 +11,14 @@ import type { ObjectAny } from '@repo/shared';
 import type { TableCellContext, TableConfig } from '~/types';
 import { TableCellDirective } from './table-cell.directive';
 import { CustomCurrencyPipe } from '~/pipes';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { tablerDatabaseX } from '@ng-icons/tabler-icons';
 
 @Component({
   selector: 'app-table, table[appTable]',
   standalone: true,
-  imports: [TableCellDirective, CommonModule, CustomCurrencyPipe],
+  imports: [TableCellDirective, CommonModule, CustomCurrencyPipe, NgIconComponent],
+  providers: provideIcons({ tablerDatabaseX }),
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

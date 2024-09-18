@@ -1,7 +1,7 @@
 <app-auth-layout>
-  <div class="space-y-6 p-4 sm:p-6 md:space-y-6">
+  <div class="p-4 sm:p-6">
     <h2 class="text-center font-bold md:text-xl">Sign in to your account</h2>
-    <form id="login-form" class="space-y-1" (ngSubmit)="handleSubmit($event)">
+    <form id="login-form" class="my-4 space-y-1 sm:my-6" (ngSubmit)="handleSubmit($event)">
       <div class="form-ctrl">
         <label for="username" class="mb-1 block">Username</label>
         <input
@@ -37,7 +37,8 @@
     <button type="submit" form="login-form" class="button w-full justify-center rounded-lg">
       Sign in
     </button>
-    <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+
+    <p class="mt-4 text-sm font-light text-gray-500 dark:text-gray-400">
       Don't have an account yet?
       <a routerLink="/signup" class="link font-medium">Sign up</a>
     </p>

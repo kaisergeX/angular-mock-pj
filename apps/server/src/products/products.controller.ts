@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Logger,
   UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
@@ -18,12 +17,10 @@ import { ProductSchema } from '@repo/shared';
 @Controller('products')
 @UseGuards(JwtAuthGuard)
 export class ProductsController {
-  #logger = new Logger('ProductsController');
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
-    this.#logger.verbose(`Create product ${createProductDto.name}`);
     return this.productsService.create(createProductDto);
   }
 
