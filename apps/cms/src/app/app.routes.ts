@@ -17,6 +17,7 @@ export const routes: Routes = [
     path: PATH.CMS,
     title: 'Admin Portal',
     component: CmsComponent,
+    data: { showHeader: true },
     canMatch: [authCanMatch],
     children: [
       {
@@ -45,6 +46,6 @@ export const routes: Routes = [
     path: '**',
     title: '404 | Not found',
     component: PageNotFoundComponent,
-    data: { hideHeader: true },
+    data: { showHeader: true },
   },
 ];

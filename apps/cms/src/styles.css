@@ -18,6 +18,10 @@
     @apply scrollbar;
   }
 
+  h1 {
+    @apply text-2xl sm:text-3xl;
+  }
+
   :is(input, textarea, select):disabled {
     @apply bg-zinc-100 opacity-80 dark:bg-zinc-800 dark:opacity-50;
   }
@@ -90,8 +94,8 @@
     }
   }
 
-  .form-ctrl > .error-msg {
-    @apply min-h-5;
+  .cms-safe-area {
+    @apply sm-only:pl-12;
   }
 
   .form-ctrl

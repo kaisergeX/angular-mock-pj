@@ -13,6 +13,7 @@ import { filter } from 'rxjs';
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './header.component.html',
+  host: { class: 'contents' },
 })
 export class HeaderComponent implements OnInit {
   #destroyRef = inject(DestroyRef);
@@ -26,13 +27,9 @@ export class HeaderComponent implements OnInit {
     this.updateHeader();
     const routerSubscription = this.#router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.updateHeader();
-      });
+      .subscribe(() => this.updateHeader());
 
-    this.#destroyRef.onDestroy(() => {
-      routerSubscription.unsubscribe();
-    });
+    this.#destroyRef.onDestroy(() => routerSubscription.unsubscribe());
   }
 
   updateHeader() {
@@ -44,7 +41,7 @@ export class HeaderComponent implements OnInit {
     }
 
     const title = activatedRouteSnapshot.title;
-    this.showHeader = activatedRouteSnapshot.data['hideHeader'] ? false : !!title;
+    this.showHeader = activatedRouteSnapshot.data['showHeader'] === true && !!title;
     this.activePageTitle = title;
   }
 }

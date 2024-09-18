@@ -4,17 +4,18 @@ import { Router } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerCurrencyDollar, tablerLoader2 } from '@ng-icons/tabler-icons';
 import { type OptionalToNullable, type CreateProductRequest, ProductStatus } from '@repo/shared';
-import { ToastService } from '~/toast.service';
 import type { ToFormBuilder } from '~/types';
 import { DEFAULT, PATH } from '~/constants';
 import type { ProductOutletInputs } from '../product-outlet/product-outlet.component';
+import { ProductService } from '../product.service';
+import { FormControlComponent, LoadingOverlayComponent } from '~/components';
 
 type ProductForm = OptionalToNullable<CreateProductRequest>;
 
 @Component({
   selector: 'app-product-mutation',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIconComponent],
+  imports: [ReactiveFormsModule, NgIconComponent, FormControlComponent, LoadingOverlayComponent],
   providers: provideIcons({ tablerCurrencyDollar, tablerLoader2 }),
   templateUrl: './product-mutation.component.html',
   host: {
@@ -24,10 +25,17 @@ type ProductForm = OptionalToNullable<CreateProductRequest>;
 export class ProductMutationComponent {
   view = input.required<ProductOutletInputs['view']>();
   productId = input<ProductOutletInputs['id']>(undefined, { alias: 'id' });
-  #toastService = inject(ToastService);
   #fb = inject(FormBuilder);
   #router = inject(Router);
-  loading = false;
+  #productService = inject(ProductService);
+
+  productMutation = this.#productService.createProduct({
+    onSuccess: () => {
+      this.form.reset();
+      this.#router.navigate([PATH.CMS, PATH.PRODUCT]);
+    },
+    onError: () => this.form.enable(),
+  });
   priceUnit = DEFAULT.CURRENCY;
 
   form = this.#fb.group<ToFormBuilder<ProductForm>>({
@@ -57,20 +65,7 @@ export class ProductMutationComponent {
       return;
     }
 
-    console.log(this.form.value);
-
-    this.loading = true;
     this.form.disable();
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-
-    this.loading = false;
-    this.#toastService.show({
-      message: this.productId() ? 'Product updated' : 'Product created',
-      hasCloseBtn: false,
-    });
-
-    // this.form.enable();
-
-    this.#router.navigate([PATH.CMS, PATH.PRODUCT]);
+    this.productMutation.mutate(this.form.value as CreateProductRequest);
   }
 }

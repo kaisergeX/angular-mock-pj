@@ -15,6 +15,7 @@ export type ProductOutletInputs = OutletInputs<{ id?: ProductSchema['id'] }>;
   imports: [CommonModule, NgIconComponent, AsyncPipe],
   providers: provideIcons({ tablerListDetails, tablerEdit }),
   templateUrl: './product-outlet.component.html',
+  host: { class: 'contents' },
 })
 export class ProductOutletComponent {
   view = input.required<OutletViewMode>();

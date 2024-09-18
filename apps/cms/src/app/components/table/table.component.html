@@ -69,6 +69,12 @@
         }
       }
     </tr>
+  } @empty {
+    <tr>
+      <td [attr.colspan]="config().columns.length" class="py-4 text-center text-zinc-400">
+        No data
+      </td>
+    </tr>
   }
 </tbody>
 

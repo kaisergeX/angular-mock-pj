@@ -1,46 +1,55 @@
-<p class="mb-4">
+<h1 class="cms-safe-area mb-4 font-semibold sm-only:mt-4">
   @if (productId()) {
-    Edit Product page<br />productId: {{ productId() }}
+    Update Product<br />productId: {{ productId() }}
   } @else {
-    Create Product page
+    Create Product
   }
-</p>
-<form
-  class="bg-floating mx-auto max-w-screen-xl grid-cols-2 gap-x-4 gap-y-1 rounded-md p-4 sm:grid sm:gap-x-6 sm:gap-y-2 [&_input]:h-10"
-  [formGroup]="form"
-  (ngSubmit)="handleSubmit()"
->
-  <label class="form-ctrl">
-    Name
-    <input
-      class="input input-form text-green-400"
-      type="text"
-      name="name"
-      formControlName="name"
-      placeholder="Enter product name"
-      minlength="3"
-      required
-    />
-    <p class="error-msg text-error invisible mt-1 text-sm">
-      Name must be at least 3 characters long
-    </p>
-  </label>
+</h1>
+<div class="bg-floating mx-auto max-w-screen-xl rounded-md">
+  <p class="p-4 text-sm">(<span class="text-error">*</span>): Required</p>
+  <form
+    id="product-mutation-form"
+    class="relative grid-cols-2 gap-x-4 gap-y-1 px-4 sm:grid sm:gap-x-6 sm:gap-y-2 [&_input]:h-10"
+    [formGroup]="form"
+    (ngSubmit)="handleSubmit()"
+  >
+    <app-loading-overlay [show]="productMutation.isLoading()" />
 
-  <label class="form-ctrl">
-    Price ({{ priceUnit }})
-    <input
-      class="input input-form"
-      type="number"
-      name="price"
-      formControlName="price"
-      placeholder="Enter product price"
-      min="100"
-      required
-    />
-    <p class="error-msg text-error invisible mt-1 text-sm">{{ form.getError('msg', 'price') }}</p>
-  </label>
+    <label
+      formCtrl
+      label="Name"
+      showAsterisk
+      definedErrMsg="Name must be at least 3 characters long"
+    >
+      <input
+        class="input input-form"
+        type="text"
+        name="name"
+        formControlName="name"
+        placeholder="Enter product name"
+        minlength="3"
+        required
+      />
+    </label>
 
-  <!-- <label class="form-ctrl">
+    <label
+      formCtrl
+      [label]="'Price (' + priceUnit + ')'"
+      showAsterisk
+      [definedErrMsg]="form.getError('msg', 'price')"
+    >
+      <input
+        class="input input-form"
+        type="number"
+        name="price"
+        formControlName="price"
+        placeholder="Enter product price"
+        min="100"
+        required
+      />
+    </label>
+
+    <!-- <label class="form-ctrl">
     Image
     <input
       class="input input-form"
@@ -51,40 +60,44 @@
     />
   </label> -->
 
-  <label class="form-ctrl col-span-2">
-    Description
-    <textarea
-      class="input input-form"
-      name="description"
-      formControlName="description"
-      placeholder="Enter product description"
-    ></textarea>
-    <p class="error-msg text-error invisible mt-1 text-sm">
-      Description must be at least 3 characters long
-    </p>
-  </label>
+    <label class="form-ctrl col-span-2">
+      Description
+      <textarea
+        class="input input-form"
+        name="description"
+        formControlName="description"
+        placeholder="Enter product description"
+      ></textarea>
+      <p class="error-msg text-error invisible mt-1 text-sm">
+        Description must be at least 3 characters long
+      </p>
+    </label>
 
-  <label class="form-ctrl">
-    Category
-    <select class="input input-form" name="category" formControlName="category" required>
-      <option value="1">Electronics</option>
-      <option value="2">Clothing</option>
-      <option value="3">Furniture</option>
-    </select>
-    <p class="error-msg text-error invisible mt-1 text-sm">Category is required</p>
-  </label>
+    <label formCtrl label="Category" showAsterisk definedErrMsg="Category is required">
+      <select class="input input-form" name="category" formControlName="category" required>
+        <option value="1">Electronics</option>
+        <option value="2">Clothing</option>
+        <option value="3">Furniture</option>
+      </select>
+    </label>
 
-  <label class="form-ctrl">
-    Status
-    <select class="input input-form" name="status" formControlName="status" required>
-      <option value="active">Active</option>
-      <option value="inactive">Inactive</option>
-    </select>
-  </label>
+    <label class="form-ctrl">
+      Status
+      <select class="input input-form" name="status" formControlName="status" required>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </label>
+  </form>
 
-  <div class="col-span-2 mt-4">
-    <button class="button" type="submit" [disabled]="loading">
-      @if (loading) {
+  <div class="p-4">
+    <button
+      class="button"
+      type="submit"
+      form="product-mutation-form"
+      [disabled]="productMutation.isLoading()"
+    >
+      @if (productMutation.isLoading()) {
         <ng-icon class="animate-spin" size="1.2rem" name="tablerLoader2" />
       }
       @if (productId()) {
@@ -94,4 +107,4 @@
       }
     </button>
   </div>
-</form>
+</div>

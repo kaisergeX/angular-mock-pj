@@ -23,7 +23,7 @@ export class AuthService {
   #loading = signal(false);
   isLoading = this.#loading.asReadonly();
 
-  login(formValues: LoginRequest): void {
+  login(formValues: LoginRequest, onError?: (err?: string) => void): void {
     this.#loading.set(true);
     const sub = this.#httpClient
       .post<ResponseData<AuthData>>('/auth/signin', formValues)
@@ -43,8 +43,10 @@ export class AuthService {
           const redirectTo = this.#activatedRoute.snapshot.queryParams[REDIRECT_PARAM] || PATH.CMS;
           this.#router.navigateByUrl(redirectTo);
         },
-        error: (err: ServerError) =>
-          this.#toastService.show({ type: 'error', message: err.message }),
+        error: (err: ServerError) => {
+          this.#toastService.show({ type: 'error', message: err.message });
+          onError?.(err.message);
+        },
         complete: () => {
           this.#loading.set(false);
           sub.unsubscribe();
