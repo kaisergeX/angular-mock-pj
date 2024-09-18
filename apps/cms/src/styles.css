@@ -90,6 +90,10 @@
     }
   }
 
+  .form-ctrl > .error-msg {
+    @apply min-h-5;
+  }
+
   .form-ctrl
     > :where(input, textarea, select):where(
       :not(:placeholder-shown, .ng-untouched.ng-invalid):invalid, /* if using native HTML form, only need :not(:placeholder-shown):invalid */

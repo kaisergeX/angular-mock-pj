@@ -1,12 +1,11 @@
 import { inject, Injectable, signal } from '@angular/core';
-import type { LoginForm } from '~/login/login.model';
 import { StorageService } from './storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PATH, REDIRECT_PARAM } from '~/constants';
 import { HttpClient } from '@angular/common/http';
+import type { AuthData, LoginRequest, ResponseData, SignUpRequest } from '@repo/shared';
 import { ToastService } from '~/toast.service';
-import type { AuthData, ResponseData } from '@repo/shared';
 import type { ServerError } from '~/utils';
+import { PATH, REDIRECT_PARAM } from '~/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -21,10 +20,11 @@ export class AuthService {
 
   #isAuth = signal(this.#storage.get('isAuthenticated') ?? false);
   isAuthenticated = this.#isAuth.asReadonly();
-  isLoading = signal(false);
+  #loading = signal(false);
+  isLoading = this.#loading.asReadonly();
 
-  login(formValues: LoginForm): void {
-    this.isLoading.set(true);
+  login(formValues: LoginRequest): void {
+    this.#loading.set(true);
     const sub = this.#httpClient
       .post<ResponseData<AuthData>>('/auth/signin', formValues)
       .subscribe({
@@ -46,7 +46,7 @@ export class AuthService {
         error: (err: ServerError) =>
           this.#toastService.show({ type: 'error', message: err.message }),
         complete: () => {
-          this.isLoading.set(false);
+          this.#loading.set(false);
           sub.unsubscribe();
         },
       });
@@ -65,5 +65,23 @@ export class AuthService {
       new URLSearchParams(currentUrl.split('?')[1]).get(REDIRECT_PARAM) || // if current url has redirect param, then reuse it
       currentUrl;
     this.#router.navigate([PATH.LOGIN], { queryParams: { [REDIRECT_PARAM]: redirectUrl } });
+  }
+
+  signUp(formValues: SignUpRequest, onError?: () => void): void {
+    this.#loading.set(true);
+    const sub = this.#httpClient.post('/auth/signup', formValues).subscribe({
+      next: () => {
+        this.#toastService.show({ message: 'Your account has been created' });
+        this.#router.navigate([PATH.LOGIN]);
+      },
+      error: (err: ServerError) => {
+        this.#toastService.show({ type: 'error', message: err.message });
+        onError?.();
+      },
+      complete: () => {
+        this.#loading.set(false);
+        sub.unsubscribe();
+      },
+    });
   }
 }

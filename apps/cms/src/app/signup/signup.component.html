@@ -1,0 +1,69 @@
+<app-auth-layout>
+  <div class="space-y-6 p-4 sm:p-6 md:space-y-6">
+    <form id="signup-form" class="space-y-1" [formGroup]="form" (ngSubmit)="handleSignUp()">
+      <label class="form-ctrl block">
+        Username
+        <input
+          class="input input-form"
+          type="text"
+          name="username"
+          formControlName="username"
+          placeholder="Enter your username"
+          required
+        />
+        <p class="error-msg text-error invisible text-sm">
+          {{
+            form.get('username')?.getError('maxlength')
+              ? 'Username must not exceed 20 characters in length'
+              : 'Username must be at least 3 characters long'
+          }}
+        </p>
+      </label>
+
+      <label class="form-ctrl block">
+        Password
+        <input
+          class="input input-form"
+          type="password"
+          name="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          required
+        />
+        <p class="error-msg text-error invisible text-sm">
+          {{
+            form.get('password')?.getError('maxlength')
+              ? 'Password must not exceed 32 characters in length'
+              : 'Password must be at least 6 characters long'
+          }}
+        </p>
+      </label>
+
+      <label class="form-ctrl block">
+        Confirm Password
+        <input
+          class="input input-form"
+          type="password"
+          name="confirmPassword"
+          formControlName="confirmPassword"
+          placeholder="Confirm your password"
+          required
+        />
+        <p class="error-msg text-error invisible text-sm">
+          {{ form.getError('msg', 'confirmPassword') || 'Please confirm your password' }}
+        </p>
+      </label>
+    </form>
+    <button
+      type="submit"
+      form="signup-form"
+      class="button w-full justify-center rounded-lg"
+      [disabled]="isLoading()"
+    >
+      @if (isLoading()) {
+        <ng-icon class="animate-spin" size="1.2rem" name="tablerLoader2" />
+      }
+      Sign Up
+    </button>
+  </div>
+</app-auth-layout>

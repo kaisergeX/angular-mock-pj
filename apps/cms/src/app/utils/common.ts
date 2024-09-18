@@ -1,5 +1,5 @@
 import type { HttpErrorResponse } from '@angular/common/http';
-import type { ResponseError } from '@repo/shared';
+import type { ResponseError, Writable } from '@repo/shared';
 
 export function processResponseErr(err: HttpErrorResponse): ResponseError {
   const defaultError: ResponseError = {
@@ -13,7 +13,8 @@ export function processResponseErr(err: HttpErrorResponse): ResponseError {
   }
 
   if (typeof err.error === 'object' && 'statusCode' in err.error) {
-    const resError = err.error as ResponseError;
+    const resError = err.error as Writable<ResponseError>;
+    resError.message = Array.isArray(resError.message) ? resError.message[0] : resError.message;
     return resError;
   }
 

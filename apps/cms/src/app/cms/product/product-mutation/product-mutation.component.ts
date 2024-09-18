@@ -35,7 +35,7 @@ export class ProductMutationComponent {
     price: this.#fb.control(NaN, {
       validators: ({ value }) => {
         if (typeof value !== 'number' || Number.isNaN(value) || value < 100) {
-          return { msg: 'Price must be greater or equal to $100' };
+          return { msg: `Price must be greater or equal to ${this.priceUnit}100` };
         }
 
         return null;
@@ -68,6 +68,8 @@ export class ProductMutationComponent {
       message: this.productId() ? 'Product updated' : 'Product created',
       hasCloseBtn: false,
     });
+
+    // this.form.enable();
 
     this.#router.navigate([PATH.CMS, PATH.PRODUCT]);
   }

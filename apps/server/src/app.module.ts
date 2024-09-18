@@ -19,7 +19,7 @@ import { ProductsModule } from './products/products.module';
         type: 'sqlite',
         database: configService.get('DB_DATABASE'),
         autoLoadEntities: true,
-        // synchronize: true,
+        synchronize: true,
       }),
     }),
     AuthModule,
