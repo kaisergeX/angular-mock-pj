@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { StorageService } from './storage.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import type { AuthData, LoginRequest, ResponseData, SignUpRequest } from '@repo/shared';
+import type { AuthData, LoginRequest, ResponseData, SignUpRequest, UserData } from '@repo/shared';
 import { ToastService } from '~/toast.service';
 import type { ServerError } from '~/utils';
 import { PATH, REDIRECT_PARAM } from '~/constants';
@@ -84,6 +84,24 @@ export class AuthService {
         this.#loading.set(false);
         sub.unsubscribe();
       },
+    });
+  }
+
+  getProfile(): void {
+    if (!this.#isAuth()) {
+      return;
+    }
+
+    const sub = this.#httpClient.get<ResponseData<UserData>>('/auth/profile').subscribe({
+      next: (response) => {
+        const username = response?.data?.username;
+        if (!username) {
+          return;
+        }
+
+        this.#storage.set('username', username);
+      },
+      complete: () => sub.unsubscribe(),
     });
   }
 }

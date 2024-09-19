@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductRepository {
@@ -31,5 +32,13 @@ export class ProductRepository {
 
   getProductList(): Promise<Product[]> {
     return this.productRepo.find();
+  }
+
+  getProductById(id: Product['id']): Promise<Product> {
+    return this.productRepo.findOneBy({ id });
+  }
+
+  updateProduct(id: Product['id'], data: UpdateProductDto) {
+    return this.productRepo.update({ id }, data);
   }
 }

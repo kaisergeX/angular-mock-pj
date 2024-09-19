@@ -8,11 +8,11 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
+import { ProductSchema } from '@repo/shared';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { JwtAuthGuard } from '~/auth/auth.guard';
-import { ProductSchema } from '@repo/shared';
 
 @Controller('products')
 @UseGuards(JwtAuthGuard)
@@ -31,7 +31,7 @@ export class ProductsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+    return this.productsService.findOne(id);
   }
 
   @Patch(':id')

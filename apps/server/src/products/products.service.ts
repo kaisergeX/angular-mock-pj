@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductRepository } from './products.repository';
+import { safeAnyToNumber } from '@repo/shared';
 
 @Injectable()
 export class ProductsService {
@@ -14,12 +15,17 @@ export class ProductsService {
     return this.productRepo.getProductList();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  findOne(id: string) {
+    const { result: productId, success } = safeAnyToNumber(id);
+    if (!success) {
+      throw new BadRequestException();
+    }
+
+    return this.productRepo.getProductById(productId);
   }
 
-  update(id: number, _: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  update(id: number, data: UpdateProductDto) {
+    return this.productRepo.updateProduct(id, data);
   }
 
   remove(id: number) {

@@ -14,7 +14,22 @@ export type CurrencyPipeOptions = {
   currency?: string;
 };
 
-export type SignalQuery<T = unknown> = Readonly<{ isLoading: Signal<boolean>; data: Signal<T> }>;
+export type QueryConfig<T = unknown> = {
+  apiPath: string;
+  /** @default true */
+  enable?: boolean;
+  onSuccess?: (data?: T) => void;
+  onError?: (err: ServerError) => void;
+};
+
+export type SignalQueryReturnType<T = unknown> = Readonly<{
+  isLoading: Signal<boolean>;
+  data: Signal<T | undefined>;
+}>;
+export type SignalQuery<TPayload = unknown> = (
+  config: QueryConfig,
+) => SignalQueryReturnType<TPayload>;
+
 export type SignalMutationReturnType<T = unknown> = Readonly<{
   isLoading: Signal<boolean>;
   mutate: (requestData: T) => void;
