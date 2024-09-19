@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -11,6 +11,15 @@ import { ProductService } from '../product.service';
 import { FormControlComponent, LoadingOverlayComponent } from '~/components';
 
 type ProductForm = OptionalToNullable<CreateProductRequest>;
+
+const initFormValues: ProductForm = {
+  name: '',
+  price: NaN,
+  description: '',
+  image: '',
+  category: '',
+  status: ProductStatus.INACTIVE,
+};
 
 @Component({
   selector: 'app-product-mutation',
@@ -29,18 +38,34 @@ export class ProductMutationComponent {
   #router = inject(Router);
   #productService = inject(ProductService);
 
-  productMutation = this.#productService.createProduct({
+  productDetail = this.#productService.getProductById(this.productId);
+
+  defaultFormValues = computed(() => {
+    const { id: _, ...productData } = { ...initFormValues, ...this.productDetail().data() };
+    this.form.setValue(productData);
+    return { isLoading: this.productDetail().isLoading(), data: productData };
+  });
+
+  productMutation = this.#productService.productMutation({
     onSuccess: () => {
-      this.form.reset();
+      this.form.reset(this.defaultFormValues().data);
       this.#router.navigate([PATH.CMS, PATH.PRODUCT]);
     },
     onError: () => this.form.enable(),
   });
+
+  isLoading = computed(
+    () => this.defaultFormValues().isLoading || this.productMutation.isLoading(),
+  );
+
   priceUnit = DEFAULT.CURRENCY;
 
   form = this.#fb.group<ToFormBuilder<ProductForm>>({
-    name: this.#fb.control('', { validators: Validators.required, nonNullable: true }),
-    price: this.#fb.control(NaN, {
+    name: this.#fb.control(initFormValues.name, {
+      validators: Validators.required,
+      nonNullable: true,
+    }),
+    price: this.#fb.control(initFormValues.price, {
       validators: ({ value }) => {
         if (typeof value !== 'number' || Number.isNaN(value) || value < 100) {
           return { msg: `Price must be greater or equal to ${this.priceUnit}100` };
@@ -50,13 +75,16 @@ export class ProductMutationComponent {
       },
       nonNullable: true,
     }),
-    category: this.#fb.control('', { validators: Validators.required, nonNullable: true }),
-    status: this.#fb.control(ProductStatus.INACTIVE, {
+    category: this.#fb.control(initFormValues.category, {
+      validators: Validators.required,
+      nonNullable: true,
+    }),
+    status: this.#fb.control(initFormValues.status, {
       validators: Validators.pattern(/^(active|inactive)$/),
       nonNullable: true,
     }),
-    description: this.#fb.control(''),
-    image: this.#fb.control(''),
+    description: this.#fb.control(initFormValues.description),
+    image: this.#fb.control(initFormValues.image),
   });
 
   async handleSubmit() {
@@ -65,7 +93,8 @@ export class ProductMutationComponent {
       return;
     }
 
+    const mutationData = this.form.value as CreateProductRequest;
     this.form.disable();
-    this.productMutation.mutate(this.form.value as CreateProductRequest);
+    this.productMutation.mutate({ ...mutationData, id: this.productId() });
   }
 }

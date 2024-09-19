@@ -13,7 +13,7 @@
     [formGroup]="form"
     (ngSubmit)="handleSubmit()"
   >
-    <app-loading-overlay [show]="productMutation.isLoading()" />
+    <app-loading-overlay [show]="isLoading()" />
 
     <label
       formCtrl
@@ -91,13 +91,8 @@
   </form>
 
   <div class="p-4">
-    <button
-      class="button"
-      type="submit"
-      form="product-mutation-form"
-      [disabled]="productMutation.isLoading()"
-    >
-      @if (productMutation.isLoading()) {
+    <button class="button" type="submit" form="product-mutation-form" [disabled]="isLoading()">
+      @if (isLoading()) {
         <ng-icon class="animate-spin" size="1.2rem" name="tablerLoader2" />
       }
       @if (productId()) {

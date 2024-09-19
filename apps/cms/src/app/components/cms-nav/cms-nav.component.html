@@ -29,7 +29,7 @@
 <div class="divide-y *:px-2">
   <div class="flex items-center gap-2">
     <ng-icon size="2rem" class="shrink-0" strokeWidth="1" name="tablerUserCircle" />
-    <span class="truncate font-semibold">{{ username }}</span>
+    <span class="truncate font-semibold">{{ username() }}</span>
   </div>
   <div class="mt-2 pt-4">
     <button class="button-secondary" type="button" (click)="logout()">

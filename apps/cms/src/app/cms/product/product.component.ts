@@ -53,7 +53,7 @@ export class ProductComponent {
         template: this.actionTemplate,
       },
     ],
-    data: this.productsQuery.data(),
+    data: this.productsQuery.data() || [],
   }));
 
   deleteProduct(id: Product['id']): void {

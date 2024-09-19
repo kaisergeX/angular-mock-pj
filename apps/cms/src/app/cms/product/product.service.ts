@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { type CreateProductRequest, type ProductSchema, type ResponseData } from '@repo/shared';
+import { computed, inject, Injectable, signal, type Signal } from '@angular/core';
+import { type CreateProductRequest, type ProductSchema } from '@repo/shared';
+import { QueryService } from '~/services';
 import { ToastService } from '~/toast.service';
-import type { SignalMutation, SignalQuery } from '~/types';
+import type { SignalMutation, SignalQueryReturnType } from '~/types';
 import type { ServerError } from '~/utils';
 
 // const dummyProducts: ProductSchema[] = [
@@ -36,18 +37,38 @@ import type { ServerError } from '~/utils';
 //   },
 // ];
 
-const productMutationFactory: SignalMutation<CreateProductRequest> = ({
-  onSuccess,
-  onError,
-} = {}) => {
+const productMutationFactory: SignalMutation<
+  CreateProductRequest & { id?: ProductSchema['id'] }
+> = ({ onSuccess, onError } = {}) => {
   const httpClient = inject(HttpClient);
   const toastService = inject(ToastService);
   const isLoading = signal(false);
 
   return {
     isLoading: isLoading.asReadonly(),
-    mutate: (requestData: CreateProductRequest) => {
+    mutate: ({ id: productId, ...requestData }) => {
+      const isUpdating = productId !== undefined;
       isLoading.set(true);
+
+      if (isUpdating) {
+        const sub = httpClient.patch(`/products/${productId}`, requestData).subscribe({
+          next: () => {
+            toastService.show({ message: 'Product updated' });
+            onSuccess?.();
+          },
+          error: (err: ServerError) => {
+            toastService.show({ type: 'error', message: err.message });
+            onError?.(err);
+          },
+          complete: () => {
+            isLoading.set(false);
+            sub.unsubscribe();
+          },
+        });
+
+        return;
+      }
+
       const sub = httpClient.post('/products', requestData).subscribe({
         next: () => {
           toastService.show({ message: 'Product created' });
@@ -70,38 +91,40 @@ const productMutationFactory: SignalMutation<CreateProductRequest> = ({
   providedIn: 'root',
 })
 export class ProductService {
-  #httpClient = inject(HttpClient);
-  #toastService = inject(ToastService);
-
+  #queryService = inject(QueryService);
   apiPath = '/products';
-  #productData = signal<ProductSchema[]>([]);
-  products = this.#productData.asReadonly();
+  #productList = signal<ProductSchema[]>([]);
+  products = this.#productList.asReadonly();
 
-  productsQuery(): SignalQuery<ProductSchema[]> {
-    const isLoading = signal(false);
-    isLoading.set(true);
-
-    const sub = this.#httpClient.get<ResponseData<ProductSchema[]>>(this.apiPath).subscribe({
-      next: (response) => {
-        const productList = response?.data;
-        if (!Array.isArray(productList)) {
+  productsQuery(): SignalQueryReturnType<ProductSchema[]> {
+    const { isLoading } = this.#queryService.queryFactory<ProductSchema[]>({
+      apiPath: this.apiPath,
+      onSuccess: (resData) => {
+        if (!Array.isArray(resData)) {
           return;
         }
 
-        this.#productData.set(productList);
-      },
-      error: (err: ServerError) => this.#toastService.show({ type: 'error', message: err.message }),
-      complete: () => {
-        isLoading.set(false);
-        sub.unsubscribe();
+        this.#productList.set(resData);
       },
     });
 
-    return {
-      isLoading: isLoading.asReadonly(),
-      data: this.products,
-    };
+    return { isLoading, data: this.products };
   }
 
-  createProduct = productMutationFactory;
+  getProductById(id: Signal<ProductSchema['id'] | undefined>) {
+    const productData = signal<ProductSchema | undefined>(undefined);
+
+    return computed<SignalQueryReturnType<ProductSchema>>(() => {
+      const productId = id();
+      const { isLoading } = this.#queryService.queryFactory<ProductSchema>({
+        apiPath: `${this.apiPath}/${productId}`,
+        enable: productId !== undefined,
+        onSuccess: (productDetail) => productData.set(productDetail),
+      });
+
+      return { isLoading, data: productData.asReadonly() };
+    });
+  }
+
+  productMutation = productMutationFactory;
 }
