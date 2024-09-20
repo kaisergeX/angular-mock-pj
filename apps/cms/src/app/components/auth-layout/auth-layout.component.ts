@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerApiApp } from '@ng-icons/tabler-icons';
 
@@ -11,5 +11,6 @@ import { tablerApiApp } from '@ng-icons/tabler-icons';
   host: {
     class: 'flex-center flex-col flex-1 gap-4 bg-pattern p-4',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthLayoutComponent {}

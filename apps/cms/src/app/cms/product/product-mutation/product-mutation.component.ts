@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -36,6 +36,7 @@ const initFormValues: ProductForm = {
   host: {
     class: 'sm:p-4 block',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductMutationComponent {
   view = input.required<ProductOutletInputs['view']>();
@@ -88,7 +89,13 @@ export class ProductMutationComponent {
       nonNullable: true,
     }),
     categoryId: this.#fb.control(initFormValues.categoryId, {
-      validators: Validators.required,
+      validators: ({ value }) => {
+        if (Number.isNaN(value) || !value) {
+          return { msg: 'Category is required' };
+        }
+
+        return null;
+      },
       nonNullable: true,
     }),
     status: this.#fb.control(initFormValues.status, {

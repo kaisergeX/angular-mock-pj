@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CmsNavComponent, HeaderComponent } from '../components';
 import { CommonModule } from '@angular/common';
@@ -21,6 +21,7 @@ import { tablerLayoutSidebarLeftCollapse, tablerMenu2 } from '@ng-icons/tabler-i
   host: {
     class: 'flex flex-1 overflow-y-auto h-full',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CmsComponent {
   openNav = false;

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
@@ -41,6 +42,7 @@ type Category = ObjectDetail<CategorySchema>;
   host: {
     class: 'sm:p-4 flex-1 overflow-hidden',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryComponent implements AfterViewInit {
   actionTemplate = viewChild.required<TemplateRef<TableCellContext<Category>>>('customAction');

@@ -1,4 +1,12 @@
-import { Component, effect, ElementRef, inject, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import type { PreviewImageData } from './preview-image.model';
 
 @Component({
@@ -11,6 +19,7 @@ import type { PreviewImageData } from './preview-image.model';
     '(reference)': 'previewDialog',
     '(mousedown)': 'onMouseDown($event)',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PreviewImageComponent {
   #hostPreviewDialogRef = inject<ElementRef<HTMLDialogElement>>(ElementRef); // access the Host <dialog> element

@@ -1,19 +1,18 @@
 import type { Routes } from '@angular/router';
-import { CategoryComponent } from './cms/category/category.component';
 import { CmsComponent } from './cms/cms.component';
-import { ProductComponent } from './cms/product/product.component';
 import { LoginComponent } from './login/login.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { loginCanMatch, authCanMatch } from './utils';
 import { PATH } from './constants';
-import { ProductOutletComponent } from './cms/product/product-outlet/product-outlet.component';
-import { SignupComponent } from './signup/signup.component';
-import { CategoryOutletComponent } from './cms/category/category-outlet/category-outlet.component';
 
 export const routes: Routes = [
   { path: '', title: 'Home', redirectTo: PATH.CMS, pathMatch: 'full' },
   { path: PATH.LOGIN, title: 'Login', canMatch: [loginCanMatch], component: LoginComponent },
-  { path: PATH.SIGN_UP, title: 'Sign Up', canMatch: [loginCanMatch], component: SignupComponent },
+  {
+    path: PATH.SIGN_UP,
+    title: 'Sign Up',
+    canMatch: [loginCanMatch],
+    loadComponent: () => import('./signup/signup.component').then((m) => m.SignupComponent),
+  },
   {
     path: PATH.CMS,
     title: 'Admin Portal',
@@ -24,39 +23,22 @@ export const routes: Routes = [
       {
         path: PATH.PRODUCT,
         title: 'Product Management',
-        component: ProductComponent,
-      },
-      {
-        path: `${PATH.PRODUCT}/:view`,
-        title: 'Create Product',
-        component: ProductOutletComponent,
-      },
-      {
-        path: `${PATH.PRODUCT}/:view/:id`,
-        title: 'Product Management',
-        component: ProductOutletComponent,
+        loadChildren: () =>
+          import('./cms/product/product.routes').then((m) => m.ProductChildrenRoutes),
       },
       {
         path: PATH.CATEGORY,
         title: 'Category Management',
-        component: CategoryComponent,
-      },
-      {
-        path: `${PATH.CATEGORY}/:view`,
-        title: 'Create Category',
-        component: CategoryOutletComponent,
-      },
-      {
-        path: `${PATH.CATEGORY}/:view/:id`,
-        title: 'Category Management',
-        component: CategoryOutletComponent,
+        loadChildren: () =>
+          import('./cms/category/category.routes').then((m) => m.CategoryChildrenRoutes),
       },
     ],
   },
   {
     path: '**',
     title: '404 | Not found',
-    component: PageNotFoundComponent,
+    loadComponent: () =>
+      import('./page-not-found/page-not-found.component').then((m) => m.PageNotFoundComponent),
     data: { showHeader: true },
   },
 ];

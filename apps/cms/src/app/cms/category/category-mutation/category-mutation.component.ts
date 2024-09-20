@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -26,6 +26,7 @@ const initFormValues: CategoryForm = {
   host: {
     class: 'sm:p-4 block',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryMutationComponent {
   view = input.required<CategoryOutletInputs['view']>();

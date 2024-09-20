@@ -27,6 +27,7 @@ import { LoadingOverlayComponent } from '~/components';
 import { CategoryService } from '../category/category.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
+import { ProductStatusDirective } from './product-status.directive';
 
 type Product = ObjectDetail<ProductSchema>;
 const loadingTracker = new Set<Product['id']>();
@@ -40,6 +41,7 @@ const loadingTracker = new Set<Product['id']>();
     RouterLink,
     LoadingOverlayComponent,
     ReactiveFormsModule,
+    ProductStatusDirective,
   ],
   providers: provideIcons({
     tablerSearch,
@@ -79,7 +81,7 @@ export class ProductComponent implements AfterViewInit, OnDestroy {
         // currencyOptions: { currency: 'VND', locale: 'vi' },
       },
       { key: 'categoryName', header: 'Category' },
-      { key: 'status', header: 'Status', align: 'center', template: this.statusTemplate },
+      { key: 'status', header: 'Status', template: this.statusTemplate },
       {
         key: 'action',
         header: 'Actions',

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   effect,
   ElementRef,
@@ -16,6 +17,7 @@ import { tablerCircleCheck, tablerExclamationCircle, tablerX } from '@ng-icons/t
   imports: [NgIconComponent],
   providers: provideIcons({ tablerExclamationCircle, tablerCircleCheck, tablerX }),
   templateUrl: './toast.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastComponent implements AfterViewInit {
   toastRef = viewChild.required<ElementRef<HTMLDivElement>>('globalToast');
