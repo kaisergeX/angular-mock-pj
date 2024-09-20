@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-form-ctrl, [formCtrl]',
@@ -6,6 +6,7 @@ import { Component, input } from '@angular/core';
   imports: [],
   templateUrl: './form-control.component.html',
   host: { class: 'form-ctrl' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormControlComponent {
   label = input.required<string>();

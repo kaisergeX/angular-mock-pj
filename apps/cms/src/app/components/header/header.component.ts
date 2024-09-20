@@ -1,4 +1,11 @@
-import { Component, DestroyRef, inject, type OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+  type OnInit,
+} from '@angular/core';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -14,14 +21,15 @@ import { filter } from 'rxjs';
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './header.component.html',
   host: { class: 'contents' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
   #destroyRef = inject(DestroyRef);
   #router = inject(Router);
   #activatedRoute = inject(ActivatedRoute);
 
-  showHeader = false;
-  activePageTitle?: string;
+  showHeader = signal(false);
+  activePageTitle = signal<string | undefined>(undefined);
 
   ngOnInit() {
     this.updateHeader();
@@ -36,12 +44,12 @@ export class HeaderComponent implements OnInit {
     const activatedRouteSnapshot =
       this.#activatedRoute.firstChild?.snapshot || this.#activatedRoute.snapshot;
     if (!activatedRouteSnapshot) {
-      this.showHeader = false;
+      this.showHeader.set(false);
       return;
     }
 
     const title = activatedRouteSnapshot.title;
-    this.showHeader = activatedRouteSnapshot.data['showHeader'] === true && !!title;
-    this.activePageTitle = title;
+    this.showHeader.set(activatedRouteSnapshot.data['showHeader'] === true && !!title);
+    this.activePageTitle.set(title);
   }
 }

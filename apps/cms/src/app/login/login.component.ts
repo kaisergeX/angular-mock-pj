@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { newTypedFormData, type LoginRequest } from '@repo/shared';
@@ -10,9 +10,8 @@ import { AuthLayoutComponent } from '~/components';
   standalone: true,
   imports: [FormsModule, RouterLink, AuthLayoutComponent],
   templateUrl: './login.component.html',
-  host: {
-    class: 'contents',
-  },
+  host: { class: 'contents' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
   #authService = inject(AuthService);

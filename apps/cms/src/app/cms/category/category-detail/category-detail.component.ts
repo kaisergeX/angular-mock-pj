@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { LoadingOverlayComponent } from '~/components';
 import type { CategoryOutletInputs } from '../category-outlet/category-outlet.component';
 import { CategoryService } from '../category.service';
@@ -9,6 +9,7 @@ import { CategoryService } from '../category.service';
   imports: [LoadingOverlayComponent],
   templateUrl: './category-detail.component.html',
   host: { class: 'sm:p-4 block flex-1' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryDetailComponent {
   view = input.required<CategoryOutletInputs['view']>();

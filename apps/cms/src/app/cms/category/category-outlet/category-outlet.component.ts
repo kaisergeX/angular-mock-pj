@@ -1,5 +1,5 @@
 import { CommonModule, AsyncPipe } from '@angular/common';
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerListDetails, tablerEdit } from '@ng-icons/tabler-icons';
@@ -16,6 +16,7 @@ export type CategoryOutletInputs = OutletInputs<{ id?: CategorySchema['id'] }>;
   providers: provideIcons({ tablerListDetails, tablerEdit }),
   templateUrl: './category-outlet.component.html',
   host: { class: 'contents' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryOutletComponent {
   view = input.required<OutletViewMode>();

@@ -8,7 +8,7 @@ export const PATH = {
 } as const;
 
 export const API_PATH = {
-  PRODUCT: '/product',
+  PRODUCTS: '/products',
   CATEGORY: '/category',
 } as const;
 

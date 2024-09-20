@@ -57,7 +57,12 @@
     />
   </label> -->
 
-    <label formCtrl label="Category" showAsterisk definedErrMsg="Category is required">
+    <label
+      formCtrl
+      label="Category"
+      showAsterisk
+      [definedErrMsg]="form.getError('msg', 'categoryId')"
+    >
       <select class="input input-form" name="categoryId" formControlName="categoryId" required>
         @for (category of categoriesQuery.data(); track category.id) {
           <option [value]="category.id">{{ category.name }}</option>

@@ -1,4 +1,12 @@
-import { Component, computed, DestroyRef, inject, output, type OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  output,
+  type OnInit,
+} from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -19,6 +27,7 @@ import { AuthService, StorageService } from '~/services';
   host: {
     class: 'px-2 py-4 flex flex-col gap-2 justify-between',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CmsNavComponent implements OnInit {
   routerChange = output<string>();

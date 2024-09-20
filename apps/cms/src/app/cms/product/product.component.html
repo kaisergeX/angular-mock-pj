@@ -45,16 +45,19 @@
 </div>
 
 <ng-template #customStatus let-context>
-  @if (context.value === 'active') {
-    <span class="relative mx-auto flex size-3">
-      <span
-        class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75"
-      ></span>
-      <span class="relative inline-flex size-3 rounded-full bg-emerald-500"></span>
-    </span>
-  } @else {
-    <span class="mx-auto block size-3 rounded-full bg-zinc-300"></span>
-  }
+  <div class="inline-flex items-center gap-1" [appProductStatus]="context.value">
+    @if (context.value === 'active') {
+      <span class="relative flex size-3">
+        <span
+          class="absolute inline-flex size-full animate-ping rounded-full bg-current opacity-75"
+        ></span>
+        <span class="relative inline-flex size-3 rounded-full bg-current"></span>
+      </span>
+    } @else {
+      <span class="size-3 rounded-full bg-current"></span>
+    }
+    <span class="font-semibold capitalize">{{ context.value }}</span>
+  </div>
 </ng-template>
 
 <ng-template #customAction let-context>

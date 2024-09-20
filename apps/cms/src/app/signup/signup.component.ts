@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, type ValidatorFn } from '@angular/forms';
 import { AuthLayoutComponent } from '~/components';
 import { AuthService } from '~/services';
@@ -28,9 +28,8 @@ const validateConfirmPassword: ValidatorFn = (control) => {
   imports: [AuthLayoutComponent, ReactiveFormsModule, NgIconComponent],
   providers: provideIcons({ tablerLoader2 }),
   templateUrl: './signup.component.html',
-  host: {
-    class: 'contents',
-  },
+  host: { class: 'contents' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignupComponent {
   #fb = inject(FormBuilder);

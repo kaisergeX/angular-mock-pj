@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import type { ProductOutletInputs } from '../product-outlet/product-outlet.component';
 import { ProductService } from '../product.service';
 import { LoadingOverlayComponent } from '~/components';
@@ -12,6 +12,7 @@ import { PATH } from '~/constants';
   imports: [LoadingOverlayComponent, CustomCurrencyPipe, RouterLink],
   templateUrl: './product-detail.component.html',
   host: { class: 'sm:p-4 block flex-1' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDetailComponent {
   view = input.required<ProductOutletInputs['view']>();

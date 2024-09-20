@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -16,6 +16,7 @@ export type ProductOutletInputs = OutletInputs<{ id?: ProductSchema['id'] }>;
   providers: provideIcons({ tablerListDetails, tablerEdit }),
   templateUrl: './product-outlet.component.html',
   host: { class: 'contents' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductOutletComponent {
   view = input.required<OutletViewMode>();
