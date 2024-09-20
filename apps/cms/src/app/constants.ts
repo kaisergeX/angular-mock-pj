@@ -7,6 +7,11 @@ export const PATH = {
   CATEGORY: 'category',
 } as const;
 
+export const API_PATH = {
+  PRODUCT: '/product',
+  CATEGORY: '/category',
+} as const;
+
 export const DEFAULT = {
   LOCALE: 'en-US',
   CURRENCY: 'USD',

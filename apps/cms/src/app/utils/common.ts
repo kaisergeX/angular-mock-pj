@@ -12,7 +12,7 @@ export function processResponseErr(err: HttpErrorResponse): ResponseError {
     return defaultError;
   }
 
-  if (typeof err.error === 'object' && 'statusCode' in err.error) {
+  if (typeof err.error === 'object' && 'message' in err.error) {
     const resError = err.error as Writable<ResponseError>;
     resError.message = Array.isArray(resError.message) ? resError.message[0] : resError.message;
     return resError;

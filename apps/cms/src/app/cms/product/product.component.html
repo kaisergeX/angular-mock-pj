@@ -2,23 +2,39 @@
 
 <div class="sm:bg-floating flex max-h-full flex-col gap-4 overflow-hidden">
   <div class="flex-center-between gap-4 bg-white p-4 dark:bg-inherit">
-    <div class="flex-1">
-      <label for="table-search" class="sr-only">Search</label>
-      <div class="relative mt-1">
-        <div
-          class="rtl:inset-r-0 pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3"
-        >
-          <ng-icon name="tablerSearch" />
+    <form
+      id="product-filter-form"
+      class="flex flex-1 flex-wrap items-center gap-4 [&>div]:sm-only:w-full"
+      [formGroup]="filterForm"
+    >
+      <div>
+        <label for="table-search" class="sr-only mb-1">Search</label>
+        <div class="relative">
+          <div
+            class="rtl:inset-r-0 pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3"
+          >
+            <ng-icon name="tablerSearch" />
+          </div>
+          <input
+            id="table-search"
+            class="input w-full ps-10 sm:w-80"
+            name="name"
+            formControlName="name"
+            type="text"
+            placeholder="Search for name"
+          />
         </div>
-        <input
-          #productSearch
-          type="text"
-          id="table-search"
-          class="input w-full ps-10 sm:w-80"
-          placeholder="Search for name"
-        />
       </div>
-    </div>
+      <div>
+        <label for="table-cate-filter" class="sr-only">Category</label>
+        <select class="input" name="categoryId" formControlName="categoryId">
+          <option value="">All Categories</option>
+          @for (category of categoriesQuery.data(); track category.id) {
+            <option [value]="category.id">{{ category.name }}</option>
+          }
+        </select>
+      </div>
+    </form>
 
     <a routerLink="./mutation" class="button"><ng-icon size="1.2rem" name="tablerPlus" />Create</a>
   </div>

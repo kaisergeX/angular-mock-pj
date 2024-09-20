@@ -1,0 +1,57 @@
+<div class="bg-floating mx-auto max-w-screen-xl rounded-md">
+  <p class="p-4 text-sm">(<span class="text-error">*</span>): Required</p>
+  <form
+    id="category-mutation-form"
+    class="relative space-y-1 px-4 sm:space-y-2 [&_input]:h-10"
+    [formGroup]="form"
+    (ngSubmit)="handleSubmit()"
+  >
+    <app-loading-overlay [show]="isLoading()" />
+
+    <label
+      formCtrl
+      label="Name"
+      showAsterisk
+      [definedErrMsg]="
+        form.getError('maxLength', 'name')
+          ? 'Name must not exceed 20 characters in length'
+          : 'Name must be at least 3 characters long'
+      "
+    >
+      <input
+        class="input input-form"
+        type="text"
+        name="name"
+        formControlName="name"
+        placeholder="Enter category name"
+        minlength="3"
+        required
+      />
+    </label>
+
+    <label class="form-ctrl col-span-2">
+      Description
+      <textarea
+        class="input input-form"
+        name="description"
+        formControlName="description"
+        placeholder="Enter category description"
+        rows="4"
+        maxlength="255"
+      ></textarea>
+    </label>
+  </form>
+
+  <div class="p-4">
+    <button class="button" type="submit" form="category-mutation-form" [disabled]="isLoading()">
+      @if (isLoading()) {
+        <ng-icon class="animate-spin" size="1.2rem" name="tablerLoader2" />
+      }
+      @if (categoryId()) {
+        Update
+      } @else {
+        Create
+      }
+    </button>
+  </div>
+</div>

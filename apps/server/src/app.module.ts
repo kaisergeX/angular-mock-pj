@@ -4,6 +4,7 @@ import { configValidator } from './configs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ProductsModule } from './products/products.module';
     }),
     AuthModule,
     ProductsModule,
+    CategoryModule,
   ],
   providers: [ConfigModule],
 })

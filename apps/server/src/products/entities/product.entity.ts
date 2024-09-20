@@ -1,5 +1,12 @@
 import { ProductSchema, ProductStatus } from '@repo/shared';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Category } from '~/category/entities/category.entity';
 
 @Entity()
 export class Product implements ProductSchema {
@@ -13,7 +20,10 @@ export class Product implements ProductSchema {
   price: number;
 
   @Column()
-  category: string;
+  categoryId: number;
+
+  @Column()
+  categoryName: string;
 
   @Column({
     // type: 'enum', // sqlite does not support enum
@@ -27,4 +37,8 @@ export class Product implements ProductSchema {
 
   @Column({ nullable: true })
   image?: string;
+
+  @ManyToOne(() => Category)
+  @JoinColumn({ name: 'categoryId' })
+  category: Category;
 }

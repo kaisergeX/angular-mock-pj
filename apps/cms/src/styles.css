@@ -81,14 +81,23 @@
     @apply border-yellow-500 text-inherit outline-yellow-500;
   }
 
+  .native-input-form {
+    &:not(:placeholder-shown/* not an empty input */):invalid {
+      @apply input-error;
+    }
+
+    &:focus:invalid {
+      /* Invalid but users are typing, so yellow instead of red (error) */
+      @apply input-warn;
+    }
+  }
+
   .input-form {
-    /* if using native HTML form then only need &:not(:placeholder-shown):invalid */
-    &:is(:not(:placeholder-shown/* not an empty input */, .ng-untouched.ng-invalid):invalid),
     &.ng-touched.ng-invalid {
       @apply input-error;
     }
 
-    &:focus:is(:invalid, .ng-invalid) {
+    &:focus.ng-invalid {
       /* Invalid but users are typing, so yellow instead of red (error) */
       @apply input-warn;
     }
@@ -100,7 +109,7 @@
 
   .form-ctrl
     > :where(input, textarea, select):where(
-      :not(:placeholder-shown, .ng-untouched.ng-invalid):invalid, /* if using native HTML form, only need :not(:placeholder-shown):invalid */
+      .native-input-form:not(:focus, :placeholder-shown):invalid,
       .ng-touched.ng-invalid
     )
     ~ .error-msg {

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal, type Signal } from '@angular/core';
-import { type CreateProductRequest, type ProductSchema } from '@repo/shared';
+import type { CreateProductRequest, ProductSchema } from '@repo/shared';
 import { QueryService } from '~/services';
 import { ToastService } from '~/toast.service';
 import type { QueryCallbacks, SignalMutation, SignalQueryReturnType } from '~/types';

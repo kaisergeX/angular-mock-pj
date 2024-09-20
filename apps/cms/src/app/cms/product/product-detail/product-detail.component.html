@@ -3,7 +3,15 @@
   <div class="grid gap-2 p-4 sm:grid-cols-2">
     <div><strong>Name:</strong> {{ product()?.name }}</div>
     <div><strong>Price:</strong> {{ product()?.price | customCurrency }}</div>
-    <div><strong>Category:</strong> {{ product()?.category }}</div>
+    <p>
+      <strong>Category:</strong>
+      <a
+        class="text-blue-600 hover:text-blue-800"
+        [routerLink]="['/', ROUTE_PATH.CMS, ROUTE_PATH.CATEGORY, 'detail', product()?.id]"
+      >
+        {{ product()?.categoryName }}
+      </a>
+    </p>
     <div><strong>Status:</strong> {{ product()?.status }}</div>
     <div class="col-span-full"><strong>Description:</strong> {{ product()?.description }}</div>
   </div>
