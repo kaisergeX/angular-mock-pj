@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import type { AuthData, LoginRequest, ResponseData, SignUpRequest, UserData } from '@repo/shared';
 import { ToastService } from '~/toast.service';
-import type { ServerError } from '~/utils';
+import { ServerError } from '~/utils';
 import { PATH, REDIRECT_PARAM } from '~/constants';
 
 @Injectable({
@@ -25,33 +25,33 @@ export class AuthService {
 
   login(formValues: LoginRequest, onError?: (err?: string) => void): void {
     this.#loading.set(true);
-    const sub = this.#httpClient
-      .post<ResponseData<AuthData>>('/auth/signin', formValues)
-      .subscribe({
-        next: (response) => {
-          const resData = response?.data;
-          if (!resData?.accessToken) {
-            throw new Error('Invalid response');
-          }
-          this.#storage.setMany({
-            username: formValues.username,
-            isAuthenticated: true,
-            accessToken: resData.accessToken,
+    this.#httpClient.post<ResponseData<AuthData>>('/auth/signin', formValues).subscribe({
+      next: (response) => {
+        const resData = response?.data;
+        if (!resData?.accessToken) {
+          throw new ServerError({
+            statusCode: 400,
+            message: 'Invalid response',
+            error: 'Invalid response',
           });
-          this.#isAuth.set(true);
+        }
+        this.#storage.setMany({
+          username: formValues.username,
+          isAuthenticated: true,
+          accessToken: resData.accessToken,
+        });
+        this.#isAuth.set(true);
 
-          const redirectTo = this.#activatedRoute.snapshot.queryParams[REDIRECT_PARAM] || PATH.CMS;
-          this.#router.navigateByUrl(redirectTo);
-        },
-        error: (err: ServerError) => {
-          this.#toastService.show({ type: 'error', message: err.message });
-          onError?.(err.message);
-        },
-        complete: () => {
-          this.#loading.set(false);
-          sub.unsubscribe();
-        },
-      });
+        const redirectTo = this.#activatedRoute.snapshot.queryParams[REDIRECT_PARAM] || PATH.CMS;
+        this.#router.navigateByUrl(redirectTo);
+      },
+      error: (err: ServerError) => {
+        this.#toastService.show({ type: 'error', message: err.message });
+        this.#loading.set(false);
+        onError?.(err.message);
+      },
+      complete: () => this.#loading.set(false),
+    });
   }
 
   logout(): void {
@@ -71,19 +71,17 @@ export class AuthService {
 
   signUp(formValues: SignUpRequest, onError?: () => void): void {
     this.#loading.set(true);
-    const sub = this.#httpClient.post('/auth/signup', formValues).subscribe({
+    this.#httpClient.post('/auth/signup', formValues).subscribe({
       next: () => {
         this.#toastService.show({ message: 'Your account has been created' });
         this.#router.navigate([PATH.LOGIN]);
       },
       error: (err: ServerError) => {
         this.#toastService.show({ type: 'error', message: err.message });
+        this.#loading.set(false);
         onError?.();
       },
-      complete: () => {
-        this.#loading.set(false);
-        sub.unsubscribe();
-      },
+      complete: () => this.#loading.set(false),
     });
   }
 
@@ -92,7 +90,7 @@ export class AuthService {
       return;
     }
 
-    const sub = this.#httpClient.get<ResponseData<UserData>>('/auth/profile').subscribe({
+    this.#httpClient.get<ResponseData<UserData>>('/auth/profile').subscribe({
       next: (response) => {
         const username = response?.data?.username;
         if (!username) {
@@ -101,7 +99,6 @@ export class AuthService {
 
         this.#storage.set('username', username);
       },
-      complete: () => sub.unsubscribe(),
     });
   }
 }

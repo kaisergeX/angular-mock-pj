@@ -28,7 +28,7 @@ export class TableComponent<TData extends ObjectAny = ObjectAny> {
 
   rows = computed(() => {
     const { columns, data: dataList } = this.config();
-    return dataList.map((record) =>
+    return dataList()?.map((record) =>
       columns.map((column) => ({
         ...column,
         className: column.className || '',

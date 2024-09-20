@@ -17,3 +17,5 @@ export const safeAnyToNumber = <T = unknown>(
   const toNumber = Number(inputVal);
   return { result: isNaN(toNumber) ? fallbackNum : toNumber, success: true };
 };
+
+export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

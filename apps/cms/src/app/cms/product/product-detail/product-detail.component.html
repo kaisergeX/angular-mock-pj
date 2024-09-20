@@ -1,5 +1,10 @@
-<p class="p-4">
-  Product detail page
-  <br />
-  productId: {{ productId() }}
-</p>
+<div class="bg-floating relative mx-auto h-full max-w-screen-xl rounded-md">
+  <app-loading-overlay [show]="productResponse().isLoading()" />
+  <div class="grid gap-2 p-4 sm:grid-cols-2">
+    <div><strong>Name:</strong> {{ product()?.name }}</div>
+    <div><strong>Price:</strong> {{ product()?.price | customCurrency }}</div>
+    <div><strong>Category:</strong> {{ product()?.category }}</div>
+    <div><strong>Status:</strong> {{ product()?.status }}</div>
+    <div class="col-span-full"><strong>Description:</strong> {{ product()?.description }}</div>
+  </div>
+</div>

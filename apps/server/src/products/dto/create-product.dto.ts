@@ -9,7 +9,7 @@ import {
 
 export class CreateProductDto implements CreateProductRequest {
   @IsString()
-  @Length(4, 255, { message: 'Name must be between 4 and 255 characters' })
+  @Length(3, 255, { message: 'Name must be between 3 and 255 characters' })
   name: string;
 
   @IsNumber()

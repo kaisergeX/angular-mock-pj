@@ -3,7 +3,7 @@ import { computed, inject, Injectable, signal, type Signal } from '@angular/core
 import { type CreateProductRequest, type ProductSchema } from '@repo/shared';
 import { QueryService } from '~/services';
 import { ToastService } from '~/toast.service';
-import type { SignalMutation, SignalQueryReturnType } from '~/types';
+import type { QueryCallbacks, SignalMutation, SignalQueryReturnType } from '~/types';
 import type { ServerError } from '~/utils';
 
 // const dummyProducts: ProductSchema[] = [
@@ -37,9 +37,12 @@ import type { ServerError } from '~/utils';
 //   },
 // ];
 
-const productMutationFactory: SignalMutation<
-  CreateProductRequest & { id?: ProductSchema['id'] }
-> = ({ onSuccess, onError } = {}) => {
+type ProductMutationReq = CreateProductRequest & { id?: ProductSchema['id'] };
+
+const productMutationFactory: SignalMutation<ProductMutationReq> = ({
+  onSuccess,
+  onError,
+} = {}) => {
   const httpClient = inject(HttpClient);
   const toastService = inject(ToastService);
   const isLoading = signal(false);
@@ -50,38 +53,20 @@ const productMutationFactory: SignalMutation<
       const isUpdating = productId !== undefined;
       isLoading.set(true);
 
-      if (isUpdating) {
-        const sub = httpClient.patch(`/products/${productId}`, requestData).subscribe({
-          next: () => {
-            toastService.show({ message: 'Product updated' });
-            onSuccess?.();
-          },
-          error: (err: ServerError) => {
-            toastService.show({ type: 'error', message: err.message });
-            onError?.(err);
-          },
-          complete: () => {
-            isLoading.set(false);
-            sub.unsubscribe();
-          },
-        });
-
-        return;
-      }
-
-      const sub = httpClient.post('/products', requestData).subscribe({
+      (isUpdating
+        ? httpClient.patch(`/products/${productId}`, requestData)
+        : httpClient.post('/products', requestData)
+      ).subscribe({
         next: () => {
-          toastService.show({ message: 'Product created' });
+          toastService.show({ message: `Product ${isUpdating ? 'updated' : 'created'}` });
           onSuccess?.();
         },
         error: (err: ServerError) => {
           toastService.show({ type: 'error', message: err.message });
+          isLoading.set(false);
           onError?.(err);
         },
-        complete: () => {
-          isLoading.set(false);
-          sub.unsubscribe();
-        },
+        complete: () => isLoading.set(false),
       });
     },
   };
@@ -91,40 +76,34 @@ const productMutationFactory: SignalMutation<
   providedIn: 'root',
 })
 export class ProductService {
+  #httpClient = inject(HttpClient);
+  #toastService = inject(ToastService);
   #queryService = inject(QueryService);
   apiPath = '/products';
-  #productList = signal<ProductSchema[]>([]);
-  products = this.#productList.asReadonly();
 
   productsQuery(): SignalQueryReturnType<ProductSchema[]> {
-    const { isLoading } = this.#queryService.queryFactory<ProductSchema[]>({
-      apiPath: this.apiPath,
-      onSuccess: (resData) => {
-        if (!Array.isArray(resData)) {
-          return;
-        }
-
-        this.#productList.set(resData);
-      },
-    });
-
-    return { isLoading, data: this.products };
+    return this.#queryService.queryFactory<ProductSchema[]>({ apiPath: this.apiPath });
   }
 
   getProductById(id: Signal<ProductSchema['id'] | undefined>) {
-    const productData = signal<ProductSchema | undefined>(undefined);
-
-    return computed<SignalQueryReturnType<ProductSchema>>(() => {
-      const productId = id();
-      const { isLoading } = this.#queryService.queryFactory<ProductSchema>({
-        apiPath: `${this.apiPath}/${productId}`,
-        enable: productId !== undefined,
-        onSuccess: (productDetail) => productData.set(productDetail),
-      });
-
-      return { isLoading, data: productData.asReadonly() };
-    });
+    return computed<SignalQueryReturnType<ProductSchema>>(() =>
+      this.#queryService.queryFactory<ProductSchema>({
+        apiPath: `${this.apiPath}/${id()}`,
+        enable: id() !== undefined,
+      }),
+    );
   }
 
   productMutation = productMutationFactory;
+
+  deleteProduct(productId: ProductSchema['id'], { onSuccess, onError }: QueryCallbacks) {
+    this.#httpClient.delete(`${this.apiPath}/${productId}`).subscribe({
+      next: () => this.#toastService.show({ message: 'Product deleted' }),
+      error: (err: ServerError) => {
+        this.#toastService.show({ type: 'error', message: err.message });
+        onError?.(err);
+      },
+      complete: onSuccess,
+    });
+  }
 }
