@@ -11,6 +11,7 @@
           <ng-icon name="tablerSearch" />
         </div>
         <input
+          #productSearch
           type="text"
           id="table-search"
           class="input w-full ps-10 sm:w-80"
@@ -23,11 +24,7 @@
   </div>
   <div class="relative h-full w-full overflow-auto">
     <app-loading-overlay [show]="productsQuery.isLoading()" />
-    <table
-      appTable
-      class="w-full text-left text-sm rtl:text-right"
-      [config]="tableConfig()"
-    ></table>
+    <table appTable class="w-full text-left text-sm rtl:text-right" [config]="tableConfig"></table>
   </div>
 </div>
 
@@ -45,14 +42,31 @@
 </ng-template>
 
 <ng-template #customAction let-context>
-  <a [routerLink]="['./mutation', context.record.id]" class="text-sky-600 dark:text-sky-500">
+  <a
+    [routerLink]="['./detail', context.record.id]"
+    class="text-sky-600 dark:text-sky-500"
+    title="Detail"
+  >
+    <ng-icon size="1.2rem" name="tablerListDetails" />
+  </a>
+  <a
+    [routerLink]="['./mutation', context.record.id]"
+    class="text-emerald-600 dark:text-emerald-500"
+    title="Update"
+  >
     <ng-icon size="1.2rem" name="tablerEdit" />
   </a>
   <button
     class="text-rose-600 dark:text-rose-500"
+    title="Delete"
     type="button"
     (click)="deleteProduct(context.record.id)"
+    [disabled]="isLoadingDeletions().has(context.record.id)"
   >
-    <ng-icon size="1.2rem" name="tablerTrash" />
+    @if (isLoadingDeletions().has(context.record.id)) {
+      <ng-icon class="[&>svg]:animate-spin" size="1.2rem" name="tablerLoader2" />
+    } @else {
+      <ng-icon size="1.2rem" name="tablerTrash" />
+    }
   </button>
 </ng-template>

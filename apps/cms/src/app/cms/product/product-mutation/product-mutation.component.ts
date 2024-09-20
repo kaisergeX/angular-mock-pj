@@ -62,7 +62,7 @@ export class ProductMutationComponent {
 
   form = this.#fb.group<ToFormBuilder<ProductForm>>({
     name: this.#fb.control(initFormValues.name, {
-      validators: Validators.required,
+      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(255)],
       nonNullable: true,
     }),
     price: this.#fb.control(initFormValues.price, {

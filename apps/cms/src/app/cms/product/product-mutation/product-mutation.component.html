@@ -1,10 +1,3 @@
-<h1 class="cms-safe-area mb-4 font-semibold sm-only:mt-4">
-  @if (productId()) {
-    Update Product<br />productId: {{ productId() }}
-  } @else {
-    Create Product
-  }
-</h1>
 <div class="bg-floating mx-auto max-w-screen-xl rounded-md">
   <p class="p-4 text-sm">(<span class="text-error">*</span>): Required</p>
   <form
@@ -19,7 +12,11 @@
       formCtrl
       label="Name"
       showAsterisk
-      definedErrMsg="Name must be at least 3 characters long"
+      [definedErrMsg]="
+        form.getError('maxLength', 'name')
+          ? 'Username must not exceed 20 characters in length'
+          : 'Username must be at least 3 characters long'
+      "
     >
       <input
         class="input input-form"

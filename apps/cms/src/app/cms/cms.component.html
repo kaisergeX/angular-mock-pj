@@ -10,14 +10,14 @@
 
 <div class="bg-pattern flex h-dvh min-w-0 flex-1 flex-col">
   <button
-    class="bg-default fixed left-2 top-2 z-[11] rounded-lg p-1 shadow-sm sm:hidden"
+    class="bg-default fixed left-2 top-4 z-[11] rounded-lg border p-1 shadow sm:hidden"
     type="button"
     (click)="openNav = true"
   >
     <ng-icon size="1.5rem" name="tablerMenu2" />
   </button>
   @if (openNav) {
-    <button class="fixed right-4 top-4 z-20" type="button" (click)="openNav = false">
+    <button class="fixed right-4 top-4 z-20 p-1" type="button" (click)="openNav = false">
       <ng-icon size="1.5rem" name="tablerLayoutSidebarLeftCollapse" />
     </button>
   }

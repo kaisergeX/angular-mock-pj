@@ -41,4 +41,8 @@ export class ProductRepository {
   updateProduct(id: Product['id'], data: UpdateProductDto) {
     return this.productRepo.update({ id }, data);
   }
+
+  deleteProduct(id: Product['id']) {
+    return this.productRepo.delete({ id });
+  }
 }

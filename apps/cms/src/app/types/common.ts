@@ -14,17 +14,20 @@ export type CurrencyPipeOptions = {
   currency?: string;
 };
 
+export type QueryCallbacks<T = unknown> = {
+  onSuccess?: (data?: T) => void;
+  onError?: (err: ServerError) => void;
+};
 export type QueryConfig<T = unknown> = {
   apiPath: string;
   /** @default true */
   enable?: boolean;
-  onSuccess?: (data?: T) => void;
-  onError?: (err: ServerError) => void;
-};
+} & QueryCallbacks<T>;
 
 export type SignalQueryReturnType<T = unknown> = Readonly<{
   isLoading: Signal<boolean>;
   data: Signal<T | undefined>;
+  refetch: () => void;
 }>;
 export type SignalQuery<TPayload = unknown> = (
   config: QueryConfig,
@@ -34,10 +37,9 @@ export type SignalMutationReturnType<T = unknown> = Readonly<{
   isLoading: Signal<boolean>;
   mutate: (requestData: T) => void;
 }>;
-export type SignalMutation<TPayload = unknown> = (config?: {
-  onSuccess?: () => void;
-  onError?: (err: ServerError) => void;
-}) => SignalMutationReturnType<TPayload>;
+export type SignalMutation<TPayload = unknown> = (
+  config?: QueryCallbacks<TPayload>,
+) => SignalMutationReturnType<TPayload>;
 
 // ========================================================================
 // =                              Layout                                  =
@@ -63,7 +65,7 @@ export type TableColumn<TData extends ObjectAny> = Readonly<{
 
 export type TableConfig<TData extends ObjectAny = ObjectAny> = {
   columns: TableColumn<TData>[];
-  data: TData[];
+  data: Signal<TData[] | undefined>;
 };
 
 export type TableCellContext<
