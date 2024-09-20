@@ -1,1 +1,46 @@
-<p>Category List</p>
+<h1 class="cms-safe-area mb-4 font-semibold sm-only:mt-4">Category</h1>
+
+<div class="sm:bg-floating flex max-h-full flex-col gap-4 overflow-hidden">
+  <div class="flex-center-between gap-4 bg-white p-4 dark:bg-inherit">
+    <div class="flex-1">
+      <label for="table-search" class="sr-only">Search</label>
+      <div class="relative mt-1">
+        <div
+          class="rtl:inset-r-0 pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3"
+        >
+          <ng-icon name="tablerSearch" />
+        </div>
+        <input
+          #categorySearch
+          type="text"
+          id="table-search"
+          class="input w-full ps-10 sm:w-80"
+          placeholder="Search for name"
+        />
+      </div>
+    </div>
+
+    <a routerLink="./mutation" class="button"><ng-icon size="1.2rem" name="tablerPlus" />Create</a>
+  </div>
+  <div class="relative h-full w-full overflow-auto">
+    <app-loading-overlay [show]="categoriesQuery.isLoading()" />
+    <table appTable class="w-full text-left text-sm rtl:text-right" [config]="tableConfig"></table>
+  </div>
+</div>
+
+<ng-template #customAction let-context>
+  <a
+    [routerLink]="['./detail', context.record.id]"
+    class="text-sky-600 dark:text-sky-500"
+    title="Detail"
+  >
+    <ng-icon size="1.2rem" name="tablerListDetails" />
+  </a>
+  <a
+    [routerLink]="['./mutation', context.record.id]"
+    class="text-emerald-600 dark:text-emerald-500"
+    title="Update"
+  >
+    <ng-icon size="1.2rem" name="tablerEdit" />
+  </a>
+</ng-template>

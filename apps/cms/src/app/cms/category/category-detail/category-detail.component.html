@@ -1,0 +1,10 @@
+<div class="bg-floating relative mx-auto h-full max-w-screen-xl rounded-md">
+  <app-loading-overlay [show]="categoryResponse().isLoading()" />
+
+  <div class="p-4">
+    <div><strong>Name:</strong> {{ category()?.name }}</div>
+    <div class="col-span-full my-4">
+      <strong>Description:</strong> {{ category()?.description }}
+    </div>
+  </div>
+</div>

@@ -3,12 +3,18 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerCurrencyDollar, tablerLoader2 } from '@ng-icons/tabler-icons';
-import { type OptionalToNullable, type CreateProductRequest, ProductStatus } from '@repo/shared';
+import {
+  type OptionalToNullable,
+  type CreateProductRequest,
+  ProductStatus,
+  safeAnyToNumber,
+} from '@repo/shared';
 import type { ToFormBuilder } from '~/types';
 import { DEFAULT, PATH } from '~/constants';
 import type { ProductOutletInputs } from '../product-outlet/product-outlet.component';
 import { ProductService } from '../product.service';
 import { FormControlComponent, LoadingOverlayComponent } from '~/components';
+import { CategoryService } from '~/cms/category/category.service';
 
 type ProductForm = OptionalToNullable<CreateProductRequest>;
 
@@ -17,7 +23,7 @@ const initFormValues: ProductForm = {
   price: NaN,
   description: '',
   image: '',
-  category: '',
+  categoryId: NaN,
   status: ProductStatus.INACTIVE,
 };
 
@@ -37,11 +43,17 @@ export class ProductMutationComponent {
   #fb = inject(FormBuilder);
   #router = inject(Router);
   #productService = inject(ProductService);
+  #categoryService = inject(CategoryService);
 
   productDetail = this.#productService.getProductById(this.productId);
+  categoriesQuery = this.#categoryService.categoriesQuery();
 
   defaultFormValues = computed(() => {
-    const { id: _, ...productData } = { ...initFormValues, ...this.productDetail().data() };
+    const {
+      id: _,
+      categoryName: _categoryName,
+      ...productData
+    } = { ...initFormValues, ...this.productDetail().data() };
     this.form.setValue(productData);
     return { isLoading: this.productDetail().isLoading(), data: productData };
   });
@@ -75,7 +87,7 @@ export class ProductMutationComponent {
       },
       nonNullable: true,
     }),
-    category: this.#fb.control(initFormValues.category, {
+    categoryId: this.#fb.control(initFormValues.categoryId, {
       validators: Validators.required,
       nonNullable: true,
     }),
@@ -95,6 +107,10 @@ export class ProductMutationComponent {
 
     const mutationData = this.form.value as CreateProductRequest;
     this.form.disable();
-    this.productMutation.mutate({ ...mutationData, id: this.productId() });
+    this.productMutation.mutate({
+      ...mutationData,
+      id: this.productId(),
+      categoryId: safeAnyToNumber(mutationData.categoryId).result,
+    });
   }
 }

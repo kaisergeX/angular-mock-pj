@@ -8,6 +8,7 @@ import { loginCanMatch, authCanMatch } from './utils';
 import { PATH } from './constants';
 import { ProductOutletComponent } from './cms/product/product-outlet/product-outlet.component';
 import { SignupComponent } from './signup/signup.component';
+import { CategoryOutletComponent } from './cms/category/category-outlet/category-outlet.component';
 
 export const routes: Routes = [
   { path: '', title: 'Home', redirectTo: PATH.CMS, pathMatch: 'full' },
@@ -39,6 +40,16 @@ export const routes: Routes = [
         path: PATH.CATEGORY,
         title: 'Category Management',
         component: CategoryComponent,
+      },
+      {
+        path: `${PATH.CATEGORY}/:view`,
+        title: 'Create Category',
+        component: CategoryOutletComponent,
+      },
+      {
+        path: `${PATH.CATEGORY}/:view/:id`,
+        title: 'Category Management',
+        component: CategoryOutletComponent,
       },
     ],
   },

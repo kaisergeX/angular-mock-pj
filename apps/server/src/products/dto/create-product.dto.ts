@@ -16,8 +16,8 @@ export class CreateProductDto implements CreateProductRequest {
   @IsPositive({ message: 'Price must be a positive number' })
   price: number;
 
-  @IsString()
-  category: string;
+  @IsNumber()
+  categoryId: number;
 
   @IsEnum(ProductStatus, {
     message: `Status must be either ${ProductStatus.ACTIVE} or ${ProductStatus.INACTIVE}`,

@@ -24,8 +24,13 @@ export class ProductsService {
     return this.productRepo.getProductById(productId);
   }
 
-  update(id: number, data: UpdateProductDto) {
-    return this.productRepo.updateProduct(id, data);
+  update(id: string, data: UpdateProductDto) {
+    const { result: productId, success } = safeAnyToNumber(id);
+    if (!success) {
+      throw new BadRequestException();
+    }
+
+    return this.productRepo.updateProduct(productId, data);
   }
 
   async delete(id: string) {

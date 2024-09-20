@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  ElementRef,
   inject,
   signal,
   TemplateRef,
@@ -19,13 +18,15 @@ import {
   tablerSearch,
   tablerTrash,
 } from '@ng-icons/tabler-icons';
-import { type ObjectDetail, type ProductSchema } from '@repo/shared';
+import { safeAnyToNumber, type ObjectDetail, type ProductSchema } from '@repo/shared';
 import { TableComponent } from '~/components/table/table.component';
 import type { TableCellContext, TableConfig } from '~/types';
 import { RouterLink } from '@angular/router';
 import { ProductService } from './product.service';
 import { LoadingOverlayComponent } from '~/components';
-import { debounceTime, fromEvent } from 'rxjs';
+import { CategoryService } from '../category/category.service';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 
 type Product = ObjectDetail<ProductSchema>;
 const loadingTracker = new Set<Product['id']>();
@@ -33,7 +34,13 @@ const loadingTracker = new Set<Product['id']>();
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [NgIconComponent, TableComponent, RouterLink, LoadingOverlayComponent],
+  imports: [
+    NgIconComponent,
+    TableComponent,
+    RouterLink,
+    LoadingOverlayComponent,
+    ReactiveFormsModule,
+  ],
   providers: provideIcons({
     tablerSearch,
     tablerEdit,
@@ -51,9 +58,11 @@ const loadingTracker = new Set<Product['id']>();
 export class ProductComponent implements AfterViewInit, OnDestroy {
   statusTemplate = viewChild.required<TemplateRef<TableCellContext<Product>>>('customStatus');
   actionTemplate = viewChild.required<TemplateRef<TableCellContext<Product>>>('customAction');
-  searchInput = viewChild.required<ElementRef<HTMLInputElement>>('productSearch');
   #productService = inject(ProductService);
+  #categoryService = inject(CategoryService);
+  #fb = inject(FormBuilder);
 
+  categoriesQuery = this.#categoryService.categoriesQuery();
   productsQuery = this.#productService.productsQuery();
   filterdProducts = signal<ProductSchema[] | undefined>(undefined);
   tableData = computed(() => this.filterdProducts() || this.productsQuery.data());
@@ -69,7 +78,7 @@ export class ProductComponent implements AfterViewInit, OnDestroy {
         type: 'currency',
         // currencyOptions: { currency: 'VND', locale: 'vi' },
       },
-      { key: 'category', header: 'Category' },
+      { key: 'categoryName', header: 'Category' },
       { key: 'status', header: 'Status', align: 'center', template: this.statusTemplate },
       {
         key: 'action',
@@ -81,16 +90,29 @@ export class ProductComponent implements AfterViewInit, OnDestroy {
     data: this.tableData,
   };
 
+  filterForm = this.#fb.group({
+    name: this.#fb.control('', { nonNullable: true }),
+    categoryId: this.#fb.control('', { nonNullable: true }),
+  });
+
   ngAfterViewInit() {
-    fromEvent(this.searchInput().nativeElement, 'input')
-      .pipe(debounceTime(500))
-      .subscribe((event) => {
-        const searchValue = (event.target as HTMLInputElement)?.value || '';
-        const filtered = this.productsQuery
-          .data()
-          ?.filter((product) => product.name.toLowerCase().includes(searchValue.toLowerCase()));
-        this.filterdProducts.set(filtered);
+    this.filterForm.valueChanges.pipe(debounceTime(400)).subscribe((value) => {
+      const filtered = this.productsQuery.data()?.filter((product) => {
+        let isNameMatch = true;
+        let isCategoryMatch = true;
+        if (value.name) {
+          isNameMatch = product.name.toLowerCase().includes(value.name.toLowerCase());
+        }
+
+        if (value.categoryId) {
+          isCategoryMatch = product.categoryId === safeAnyToNumber(value.categoryId).result;
+        }
+
+        return isNameMatch && isCategoryMatch;
       });
+
+      this.filterdProducts.set(filtered);
+    });
   }
 
   #untrackDeleteId(id: Product['id']) {

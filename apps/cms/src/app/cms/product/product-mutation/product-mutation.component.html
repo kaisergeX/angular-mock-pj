@@ -14,8 +14,8 @@
       showAsterisk
       [definedErrMsg]="
         form.getError('maxLength', 'name')
-          ? 'Username must not exceed 20 characters in length'
-          : 'Username must be at least 3 characters long'
+          ? 'Name must not exceed 20 characters in length'
+          : 'Name must be at least 3 characters long'
       "
     >
       <input
@@ -57,24 +57,11 @@
     />
   </label> -->
 
-    <label class="form-ctrl col-span-2">
-      Description
-      <textarea
-        class="input input-form"
-        name="description"
-        formControlName="description"
-        placeholder="Enter product description"
-      ></textarea>
-      <p class="error-msg text-error invisible mt-1 text-sm">
-        Description must be at least 3 characters long
-      </p>
-    </label>
-
     <label formCtrl label="Category" showAsterisk definedErrMsg="Category is required">
-      <select class="input input-form" name="category" formControlName="category" required>
-        <option value="1">Electronics</option>
-        <option value="2">Clothing</option>
-        <option value="3">Furniture</option>
+      <select class="input input-form" name="categoryId" formControlName="categoryId" required>
+        @for (category of categoriesQuery.data(); track category.id) {
+          <option [value]="category.id">{{ category.name }}</option>
+        }
       </select>
     </label>
 
@@ -84,6 +71,18 @@
         <option value="active">Active</option>
         <option value="inactive">Inactive</option>
       </select>
+    </label>
+
+    <label class="form-ctrl col-span-2">
+      Description
+      <textarea
+        class="input input-form"
+        name="description"
+        formControlName="description"
+        placeholder="Enter product description"
+        rows="4"
+        maxlength="255"
+      ></textarea>
     </label>
   </form>
 

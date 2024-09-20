@@ -20,10 +20,21 @@ export interface ProductSchema {
   price: number;
   description?: string;
   image?: string;
-  category: string;
+  categoryId: CategorySchema['id'];
+  categoryName: CategorySchema['name'];
   status: ProductStatus;
 }
 
 export type ProductsResponse = ResponseData<ProductSchema[]>;
 
-export type CreateProductRequest = Omit<ProductSchema, 'id'>;
+export type CreateProductRequest = Omit<ProductSchema, 'id' | 'categoryName'>;
+
+export interface CategorySchema {
+  id: number;
+  name: string;
+  description?: string;
+}
+
+export type CategoriesResponse = ResponseData<CategorySchema[]>;
+
+export type CreateCategoryRequest = Omit<CategorySchema, 'id'>;
