@@ -15,6 +15,7 @@ import type { ProductOutletInputs } from '../product-outlet/product-outlet.compo
 import { ProductService } from '../product.service';
 import { FormControlComponent, LoadingOverlayComponent } from '~/components';
 import { CategoryService } from '~/cms/category/category.service';
+import { ProductStatusDirective } from '../product-status.directive';
 
 type ProductForm = OptionalToNullable<CreateProductRequest>;
 
@@ -30,7 +31,13 @@ const initFormValues: ProductForm = {
 @Component({
   selector: 'app-product-mutation',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIconComponent, FormControlComponent, LoadingOverlayComponent],
+  imports: [
+    ReactiveFormsModule,
+    NgIconComponent,
+    FormControlComponent,
+    LoadingOverlayComponent,
+    ProductStatusDirective,
+  ],
   providers: provideIcons({ tablerCurrencyDollar, tablerLoader2 }),
   templateUrl: './product-mutation.component.html',
   host: {
@@ -45,6 +52,7 @@ export class ProductMutationComponent {
   #router = inject(Router);
   #productService = inject(ProductService);
   #categoryService = inject(CategoryService);
+  productStatusOptions = Object.values(ProductStatus);
 
   productDetail = this.#productService.getProductById(this.productId);
   categoriesQuery = this.#categoryService.categoriesQuery();

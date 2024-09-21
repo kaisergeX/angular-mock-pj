@@ -12,7 +12,12 @@
         {{ product()?.categoryName }}
       </a>
     </p>
-    <div><strong>Status:</strong> {{ product()?.status }}</div>
+    <div>
+      <strong>Status: </strong>
+      <span class="font-bold capitalize" [appProductStatus]="product()?.status">{{
+        product()?.status
+      }}</span>
+    </div>
     <div class="col-span-full"><strong>Description:</strong> {{ product()?.description }}</div>
   </div>
 </div>

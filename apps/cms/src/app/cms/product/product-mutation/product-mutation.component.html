@@ -72,9 +72,12 @@
 
     <label class="form-ctrl">
       Status
-      <select class="input input-form" name="status" formControlName="status" required>
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
+      <select class="input input-form capitalize" name="status" formControlName="status" required>
+        @for (status of productStatusOptions; track $index) {
+          <option class="font-semibold" [appProductStatus]="status" [value]="status">
+            {{ status }}
+          </option>
+        }
       </select>
     </label>
 
