@@ -6,7 +6,10 @@ import { ProductStatus } from '@repo/shared';
   standalone: true,
 })
 export class ProductStatusDirective {
-  status = input<ProductStatus>(ProductStatus.INACTIVE, { alias: 'appProductStatus' });
+  status = input<ProductStatus | undefined, ProductStatus | undefined>(ProductStatus.INACTIVE, {
+    transform: (v) => (v === undefined ? ProductStatus.INACTIVE : v),
+    alias: 'appProductStatus',
+  });
   #elementRef = inject<ElementRef<HTMLElement>>(ElementRef); // access the Host element
 
   constructor() {
@@ -16,8 +19,8 @@ export class ProductStatusDirective {
         return;
       }
 
-      element.classList.toggle('text-emerald-400', this.status() === ProductStatus.ACTIVE);
-      element.classList.toggle('text-zinc-300', this.status() === ProductStatus.INACTIVE);
+      element.classList.toggle('text-emerald-500', this.status() === ProductStatus.ACTIVE);
+      element.classList.toggle('text-zinc-400', this.status() === ProductStatus.INACTIVE);
     });
   }
 }

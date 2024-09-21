@@ -5,11 +5,12 @@ import { LoadingOverlayComponent } from '~/components';
 import { CustomCurrencyPipe } from '~/pipes';
 import { RouterLink } from '@angular/router';
 import { PATH } from '~/constants';
+import { ProductStatusDirective } from '../product-status.directive';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [LoadingOverlayComponent, CustomCurrencyPipe, RouterLink],
+  imports: [LoadingOverlayComponent, CustomCurrencyPipe, RouterLink, ProductStatusDirective],
   templateUrl: './product-detail.component.html',
   host: { class: 'sm:p-4 block flex-1' },
   changeDetection: ChangeDetectionStrategy.OnPush,
