@@ -23,6 +23,18 @@ Server: [localhost:8081](http://localhost:8081)
 - [cms](apps/cms): Admin portal. Build with Angular 18.
 - [server](apps/server): Server that serves other apps in this monorepo. Powered by NestJS.
 
+## Designs
+
+### Wireframe
+
+- [Excalidraw file](designs/Angular_mock_CMS.excalidraw) - View and editable with https://excalidraw.com/
+- [SVG](designs/Angular_Mock_CMS.svg)
+- [PNG](designs/Angular_Mock_CMS.png)
+
+### Database
+
+[ER diagram](designs/Angular_mock_CMS_db_ER_diagram.png)
+
 ## Installation
 
 ```
